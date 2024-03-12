@@ -30,10 +30,10 @@
 }
 
 @layer components {
-  .overline {
+  .text-overline {
     @apply text-[14px] font-normal uppercase leading-[19px] tracking-[10px];
   }
-  .subtitle {
+  .text-subtitle {
     @apply text-[13px] font-bold uppercase leading-[25px] tracking-[1px];
   }
 }
