@@ -2,19 +2,28 @@ import Image from "next/image";
 import Link from "next/link";
 import React from "react";
 
-export default function Category() {
+type CategoryItemProps = {
+  imageUrl: string;
+  title: string;
+};
+
+export default function CategoryItem({ imageUrl, title }: CategoryItemProps) {
   return (
-    <div className="bg- flex flex-col items-center rounded-lg">
-      <div className="relative h-48 w-48 -translate-y-16 mix-blend-darken">
+    <div className="flex h-48 flex-col items-center justify-center gap-2 rounded-lg bg-gray py-12 uppercase">
+      <div className="relative top-0 mx-auto h-full w-40 -translate-y-1/2">
         <Image
-          src={"/product-xx99-mark-one-headphones/mobile/image-product.jpg"}
-          className="absolute "
-          fill
-          alt="product-xx99"
+          src={imageUrl}
+          width={0}
+          height={0}
+          sizes="100vw"
+          className="h-auto w-full"
+          alt={`${title} category`}
         />
       </div>
-      <h4>Headphones</h4>
-      <Link href="/">Shop ></Link>
+      <p>{title}</p>
+      <Link href="/" className="text-subtitle  text-black">
+        Shop <span className="text-primary">&gt;</span>
+      </Link>
     </div>
   );
 }

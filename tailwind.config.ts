@@ -19,6 +19,9 @@ const config = {
     },
 
     extend: {
+      backgroundImage: {
+        hero: "url('/assets/home/mobile/image-header.jpg')",
+      },
       colors: {
         primary: "#D87D4A",
         secondary: "#101010",
