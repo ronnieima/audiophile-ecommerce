@@ -17,17 +17,17 @@ const config = {
         "2xl": "1400px",
       },
     },
-    colors: {
-      primary: "#D87D4A",
-      secondary: "#101010",
-      gray: "#F1F1F1",
-      lightgray: "#FAFAFA",
-      accent: "#FBAF85",
-      white: "#FFFFFF",
-      black: "#000000",
-    },
 
     extend: {
+      colors: {
+        primary: "#D87D4A",
+        secondary: "#101010",
+        gray: "#F1F1F1",
+        lightgray: "#FAFAFA",
+        accent: "#FBAF85",
+        white: "#FFFFFF",
+        black: "#000000",
+      },
       keyframes: {
         "accordion-down": {
           from: { height: "0" },
