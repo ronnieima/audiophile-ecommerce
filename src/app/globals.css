@@ -2,32 +2,38 @@
 @tailwind components;
 @tailwind utilities;
 
-:root {
-  --foreground-rgb: 0, 0, 0;
-  --background-start-rgb: 214, 219, 220;
-  --background-end-rgb: 255, 255, 255;
-}
-
-@media (prefers-color-scheme: dark) {
-  :root {
-    --foreground-rgb: 255, 255, 255;
-    --background-start-rgb: 0, 0, 0;
-    --background-end-rgb: 0, 0, 0;
+@layer base {
+  html {
+    font-family: "Manrope", system-ui, sans-serif;
+  }
+  h1 {
+    @apply text-[56px] font-bold uppercase leading-[58px] tracking-[2px];
+  }
+  h2 {
+    @apply text-[40px] font-bold uppercase leading-[44px] tracking-[1.5px];
+  }
+  h3 {
+    @apply text-[32px] font-bold uppercase leading-[36px] tracking-[1.15px];
+  }
+  h4 {
+    @apply text-[28px] font-bold uppercase leading-[38px] tracking-[2px];
+  }
+  h5 {
+    @apply text-[24px] font-bold uppercase leading-[33px] tracking-[1.7px];
+  }
+  h6 {
+    @apply text-[18px] font-bold uppercase leading-[24px] tracking-[1.3px];
+  }
+  p {
+    @apply text-[15px] font-medium leading-[25px];
   }
 }
 
-body {
-  color: rgb(var(--foreground-rgb));
-  background: linear-gradient(
-      to bottom,
-      transparent,
-      rgb(var(--background-end-rgb))
-    )
-    rgb(var(--background-start-rgb));
-}
-
-@layer utilities {
-  .text-balance {
-    text-wrap: balance;
+@layer components {
+  .overline {
+    @apply text-[14px] font-normal uppercase leading-[19px] tracking-[10px];
+  }
+  .subtitle {
+    @apply text-[13px] font-bold uppercase leading-[25px] tracking-[1px];
   }
 }
