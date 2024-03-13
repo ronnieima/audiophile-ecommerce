@@ -4,7 +4,7 @@ import { Button } from "./ui/button";
 
 export default function Products() {
   return (
-    <section className="flex flex-col gap-8 px-4 py-16 text-center">
+    <section className="flex flex-col gap-8  px-4 text-center">
       <div className="bg-patternCircles relative flex flex-col items-center justify-center gap-8 rounded-lg bg-primary bg-cover bg-[center_-7rem] bg-no-repeat p-8 py-32  text-white">
         <div>
           <Image
@@ -37,7 +37,7 @@ export default function Products() {
       <div className="flex  flex-col items-center justify-center gap-8">
         <div className="h-[16rem] w-full rounded-lg bg-[url('/assets/home/mobile/image-earphones-yx1.jpg')] bg-cover"></div>
         <div className="flex h-full w-full flex-col items-start justify-center gap-8 rounded-lg bg-gray p-8">
-          <h3>YX1 Earphones</h3>
+          <h3 className="text-left">YX1 Earphones</h3>
           <Button variant={"secondary"}>See product</Button>
         </div>
       </div>

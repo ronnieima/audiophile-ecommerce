@@ -4,7 +4,7 @@ import { categories } from "@/config/content";
 
 export default function Categories() {
   return (
-    <section className="flex flex-col gap-24 bg-lightgray px-4 py-32">
+    <section className="flex w-full flex-col gap-24 bg-lightgray px-4">
       {categories.map((category) => (
         <Category
           key={category.title}

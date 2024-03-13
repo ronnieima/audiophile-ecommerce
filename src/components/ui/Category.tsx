@@ -11,7 +11,7 @@ type CategoryItemProps = {
 
 export default function CategoryItem({ imageUrl, title }: CategoryItemProps) {
   return (
-    <div className="flex h-48 flex-col items-center justify-center gap-2 rounded-lg bg-gray py-12 uppercase">
+    <div className="flex h-48 flex-col items-center justify-center gap-2 rounded-lg bg-gray py-12 uppercase ">
       <div className="relative top-0 mx-auto h-full w-40 -translate-y-1/2">
         <Image
           src={imageUrl}

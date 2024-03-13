@@ -2,8 +2,8 @@ import { Button } from "./ui/button";
 
 export default function Hero() {
   return (
-    <section className="bg-hero relative h-full bg-cover bg-bottom bg-no-repeat text-white">
-      <header className="flex h-full flex-col items-center justify-center gap-4 px-4 py-32 text-center">
+    <section className="relative h-full bg-hero bg-cover bg-bottom bg-no-repeat py-32 text-white">
+      <header className="flex h-full flex-col items-center justify-center gap-4 text-center">
         <span className="text-overline text-neutral-500">NEW PRODUCT</span>
         <h3>XX99 MARK II HEADPHONES</h3>
         <p className="text-lightgray">
