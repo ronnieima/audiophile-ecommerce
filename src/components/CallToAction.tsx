@@ -9,13 +9,21 @@ export default function CallToAction() {
         height={0}
         width={0}
         sizes="100vw"
-        className="h-auto w-full rounded-lg"
+        className="h-auto w-full rounded-lg sm:hidden"
         alt="a black-and-white image of a man wearing headphones posing"
       />
-      <h3>
+      <Image
+        src={"/assets/shared/tablet/image-best-gear.jpg"}
+        height={0}
+        width={0}
+        sizes="100vw"
+        className="hidden h-auto w-full rounded-lg sm:block"
+        alt="a black-and-white image of a man wearing headphones posing"
+      />
+      <h2 className="sm:max-w-xl">
         Bringing you the <span className="text-primary">best</span> audio gear
-      </h3>
-      <p>
+      </h2>
+      <p className="sm:max-w-lg">
         Located at the heart of New York City, Audiophile is the premier store
         for high end headphones, earphones, speakers, and audio accessories. We
         have a large showroom and luxury demonstration rooms available for you

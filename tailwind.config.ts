@@ -20,7 +20,7 @@ const config = {
     fontFamily: { manrope: "Manrope" },
     extend: {
       backgroundImage: {
-        hero: "url('/assets/home/mobile/image-header.jpg')",
+        hero: "url('/assets/home/desktop/image-header.jpg')",
         patternCircles: "url('/assets/home/desktop/pattern-circles.svg')",
       },
       colors: {

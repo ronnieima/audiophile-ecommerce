@@ -7,7 +7,7 @@
     font-family: "Manrope", system-ui, sans-serif;
   }
   h1 {
-    @apply text-[56px] font-bold uppercase leading-[58px] tracking-[2px];
+    @apply text-[36px] font-bold uppercase leading-[58px] tracking-[2px] sm:text-[56px];
   }
   h2 {
     @apply text-[40px] font-bold uppercase leading-[44px] tracking-[1.5px];
