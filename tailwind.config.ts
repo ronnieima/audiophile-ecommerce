@@ -17,10 +17,11 @@ const config = {
         "2xl": "1400px",
       },
     },
-
+    fontFamily: { manrope: "Manrope" },
     extend: {
       backgroundImage: {
         hero: "url('/assets/home/mobile/image-header.jpg')",
+        patternCircles: "url('/assets/home/desktop/pattern-circles.svg')",
       },
       colors: {
         primary: "#D87D4A",

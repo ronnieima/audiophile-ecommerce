@@ -1,6 +1,8 @@
 import Image from "next/image";
 import Link from "next/link";
 import React from "react";
+import { Button } from "./button";
+import ArrowRight from "./ArrowRight";
 
 type CategoryItemProps = {
   imageUrl: string;
@@ -21,9 +23,11 @@ export default function CategoryItem({ imageUrl, title }: CategoryItemProps) {
         />
       </div>
       <p>{title}</p>
-      <Link href="/" className="text-subtitle  text-black">
-        Shop <span className="text-primary">&gt;</span>
-      </Link>
+      <Button asChild variant={"link"}>
+        <Link href="/" className="text-subtitle flex gap-2 text-black">
+          Shop <ArrowRight />
+        </Link>
+      </Button>
     </div>
   );
 }

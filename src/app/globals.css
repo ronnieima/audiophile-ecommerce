@@ -25,7 +25,10 @@
     @apply text-[18px] font-bold uppercase leading-[24px] tracking-[1.3px];
   }
   p {
-    @apply text-[15px] font-medium leading-[25px];
+    @apply text-[15px] font-thin leading-[25px];
+  }
+  body {
+    @apply bg-lightgray;
   }
 }
 
