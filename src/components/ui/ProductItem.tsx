@@ -1,8 +1,8 @@
 import { Product } from "@/data";
-import Image from "next/image";
 import React from "react";
 import { Button } from "./button";
 import Link from "next/link";
+import { cn } from "@/lib/utils";
 
 export type ProductItemProps = {
   product: Product;
@@ -10,21 +10,35 @@ export type ProductItemProps = {
 
 export default function ProductItem({ product }: ProductItemProps) {
   return (
-    <div className="flex flex-col items-center justify-center gap-8 py-8 text-center">
-      <Image
-        className="h-auto w-full rounded-lg"
-        src={product.image.desktop.slice(1)}
-        sizes="100vw"
-        width={0}
-        height={0}
-        alt="test"
-      />
-      <div className="flex max-w-xs flex-col items-center justify-center gap-8">
+    <div
+      className={cn(
+        "mx-auto flex max-w-7xl flex-col items-center justify-center gap-8 text-center",
+        "lg:flex-row lg:justify-center lg:gap-16 lg:px-8 lg:even:flex-row-reverse",
+      )}
+    >
+      <picture className="lg:w-1/2">
+        <source
+          media="(min-width:1024px)"
+          srcSet={product.image.desktop.slice(1)}
+        />
+        <source
+          media="(min-width:640px)"
+          srcSet={product.categoryImage.tablet.slice(1)}
+        />
+        <img src={product.image.mobile.slice(1)} alt={product.name} />
+      </picture>
+      <div
+        className={cn(
+          "flex max-w-xs flex-col items-center justify-center gap-8",
+          "sm:max-w-lg",
+          "lg:w-1/2 lg:items-start lg:text-left",
+        )}
+      >
         {product.new && (
           <span className="text-overline text-primary">New product</span>
         )}
-        <h2>{product.name}</h2>
-        <p>{product.description}</p>
+        <h2 className="max-w-xs">{product.name}</h2>
+        <p className="max-w-md">{product.description}</p>
         <Button asChild>
           <Link href={product.slug} className="uppercase">
             See product
