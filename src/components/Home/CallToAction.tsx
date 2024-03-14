@@ -4,7 +4,7 @@ import React from "react";
 
 export default function CallToAction() {
   return (
-    <section className="px-4 pb-32 text-center">
+    <section className="px-4 py-8 pb-32 text-center">
       <div
         className={cn(
           "flex flex-col items-center justify-center gap-16 ",
