@@ -2,7 +2,7 @@
 
 import { Product, products } from "@/data";
 
-export async function getData(
+export async function getProducts(
   category?: "headphones" | "speakers" | "earphones",
 ) {
   if (category) {

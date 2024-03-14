@@ -1,7 +1,7 @@
 import CallToAction from "@/components/Home/CallToAction";
 import Categories from "@/components/Home/Categories";
 import ProductItem from "@/components/ui/ProductItem";
-import { getData } from "@/lib/actions";
+import { getProducts } from "@/lib/actions";
 import { cn } from "@/lib/utils";
 import { notFound } from "next/navigation";
 
@@ -12,7 +12,7 @@ type CategoryPageProps = {
 export default async function CategoryPage({
   params: { category },
 }: CategoryPageProps) {
-  const products = await getData(category);
+  const products = await getProducts(category);
   if (products.length === 0) return notFound();
   return (
     <main>
