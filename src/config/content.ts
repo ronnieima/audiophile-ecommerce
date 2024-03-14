@@ -1,20 +1,17 @@
-import {
-  FacebookIcon,
-  InstagramIcon,
-  TwitterIcon,
-} from "@/components/ui/SocialIcons";
-
 export const categories = [
   {
     title: "Headphones",
+    href: "/headphones",
     imageUrl: "/assets/shared/desktop/image-category-thumbnail-headphones.png",
   },
   {
     title: "Speakers",
+    href: "/speakers",
     imageUrl: "/assets/shared/desktop/image-category-thumbnail-speakers.png",
   },
   {
     title: "Earphones",
+    href: "/earphones",
     imageUrl: "/assets/shared/desktop/image-category-thumbnail-earphones.png",
   },
 ];

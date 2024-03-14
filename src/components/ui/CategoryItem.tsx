@@ -7,9 +7,14 @@ import ArrowRight from "./ArrowRight";
 type CategoryItemProps = {
   imageUrl: string;
   title: string;
+  href: string;
 };
 
-export default function CategoryItem({ imageUrl, title }: CategoryItemProps) {
+export default function CategoryItem({
+  imageUrl,
+  title,
+  href,
+}: CategoryItemProps) {
   return (
     <div className="flex h-48  w-full flex-col items-center justify-center gap-2 rounded-lg bg-gray py-12 uppercase ">
       <div className="relative top-0 mx-auto h-full w-40 -translate-y-1/2">
@@ -24,7 +29,11 @@ export default function CategoryItem({ imageUrl, title }: CategoryItemProps) {
       </div>
       <h6>{title}</h6>
       <Button asChild variant={"link"}>
-        <Link href="/" className="text-subtitle flex gap-2 text-black">
+        <Link
+          href={href}
+          className="text-subtitle flex gap-2 text-black"
+          target="_blank"
+        >
           Shop <ArrowRight />
         </Link>
       </Button>
