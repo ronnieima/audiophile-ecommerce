@@ -1,7 +1,7 @@
-import Categories from "@/components/Categories";
-import Hero from "../components/Hero";
-import Products from "@/components/Products";
-import CallToAction from "@/components/CallToAction";
+import CallToAction from "@/components/Home/CallToAction";
+import Categories from "@/components/Home/Categories";
+import Hero from "@/components/Home/Hero";
+import Products from "@/components/Home/Products";
 
 export default function HomePage() {
   return (

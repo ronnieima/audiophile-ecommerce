@@ -1,6 +1,6 @@
 import Image from "next/image";
 import React from "react";
-import { Button } from "./ui/button";
+import { Button } from "../ui/button";
 import { cn } from "@/lib/utils";
 
 export default function Products() {
@@ -29,16 +29,16 @@ export default function Products() {
           />
           <div className=" flex h-full w-1/2 items-end sm:w-1/4 lg:w-1/2">
             <Image
-              src={"/assets/home/mobile/image-speaker-zx9.png"}
-              className=" h-auto w-full lg:hidden"
+              src={"/assets/home/desktop/image-speaker-zx9.png"}
+              className="hidden w-full translate-y-4 lg:block"
               sizes="100vw"
               width={0}
               height={0}
               alt="ZX9 Speaker"
             />
             <Image
-              src={"/assets/home/desktop/image-speaker-zx9.png"}
-              className="hidden w-full translate-y-4 lg:block"
+              src={"/assets/home/mobile/image-speaker-zx9.png"}
+              className=" h-auto w-full lg:hidden"
               sizes="100vw"
               width={0}
               height={0}

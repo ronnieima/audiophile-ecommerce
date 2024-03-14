@@ -1,7 +1,7 @@
 import { Menu, ShoppingCart } from "lucide-react";
 import React from "react";
-import Logo from "./ui/Logo";
-import NavLinks from "./ui/NavLinks";
+import Logo from "../ui/Logo";
+import NavLinks from "../ui/NavLinks";
 
 export default function Navbar() {
   return (

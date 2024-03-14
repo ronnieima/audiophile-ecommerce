@@ -1,5 +1,5 @@
 import React from "react";
-import Category from "./ui/CategoryItem";
+import Category from "../ui/CategoryItem";
 import { categories } from "@/config/content";
 
 export default function Categories() {

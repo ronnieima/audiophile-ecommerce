@@ -1,5 +1,5 @@
 import Image from "next/image";
-import { Button } from "./ui/button";
+import { Button } from "../ui/button";
 import { cn } from "@/lib/utils";
 import headerTablet from "@/../public/assets/home/tablet/image-header.jpg";
 
@@ -25,7 +25,7 @@ export default function Hero() {
       <header
         className={cn(
           "flex h-full w-full flex-col items-center justify-center gap-4 py-32 text-center",
-          "lg:mx-auto lg:max-w-7xl lg:items-start  lg:gap-8 lg:px-2 lg:text-left",
+          "lg:mx-auto lg:max-w-7xl lg:items-start  lg:gap-8 lg:px-16 lg:text-left",
         )}
       >
         <span className="text-overline text-neutral-500">NEW PRODUCT</span>
