@@ -1,12 +1,7 @@
 import Link from "next/link";
 import React from "react";
 import { FacebookIcon, InstagramIcon, TwitterIcon } from "./SocialIcons";
-
-const socialLinks = [
-  { icon: <FacebookIcon />, href: "https://www.facebook.com" },
-  { icon: <TwitterIcon />, href: "https://www.twitter.com" },
-  { icon: <InstagramIcon />, href: "https://www.instagram.com" },
-];
+import { SocialPlatforms, socialLinks } from "@/config/content";
 
 export default function SocialButtons() {
   return (
@@ -14,10 +9,23 @@ export default function SocialButtons() {
       {socialLinks.map((social) => (
         <li key={social.href}>
           <Link href={social.href} target="_blank">
-            {social.icon}
+            {getSocialIcon(social.platform)}
           </Link>
         </li>
       ))}
     </ul>
   );
+}
+
+function getSocialIcon(platform: SocialPlatforms) {
+  switch (platform) {
+    case SocialPlatforms.Facebook:
+      return <FacebookIcon />;
+    case SocialPlatforms.Twitter:
+      return <TwitterIcon />;
+    case SocialPlatforms.Instagram:
+      return <InstagramIcon />;
+    default:
+      return null;
+  }
 }
