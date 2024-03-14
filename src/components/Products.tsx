@@ -16,7 +16,7 @@ export default function Products() {
         <div
           style={{ background: "primary" }}
           className={cn(
-            "relative flex h-full w-full flex-col items-center justify-center gap-8 rounded-lg bg-primary p-8 py-32 text-white",
+            "relative -z-50 flex h-full w-full flex-col items-center justify-center gap-8 rounded-lg bg-primary p-8 py-32 text-white",
           )}
           // bg-patternCircles bg-cover bg-[center_-7rem] bg-no-repeat
         >
@@ -24,7 +24,7 @@ export default function Products() {
             src={"/assets/home/desktop/pattern-circles.svg"}
             width={0}
             height={0}
-            className="absolute top-12 h-auto w-full"
+            className=" absolute top-0 -z-10  w-full"
             alt=""
           />
           <div className="w-1/2 sm:w-1/4">
