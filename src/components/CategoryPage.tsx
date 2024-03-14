@@ -3,10 +3,11 @@ import Categories from "@/components/Home/Categories";
 import ProductItem from "@/components/ui/ProductItem";
 import { getData } from "@/lib/actions";
 import { cn } from "@/lib/utils";
-import React from "react";
 
-export default async function HeadphonesPage() {
-  const products = await getData("headphones");
+type CategoryPageProps = { category: "headphones" | "speakers" | "earphones" };
+
+export default async function CategoryPage({ category }: CategoryPageProps) {
+  const products = await getData(category);
   return (
     <main>
       <header
@@ -15,7 +16,7 @@ export default async function HeadphonesPage() {
           "sm:h-64",
         )}
       >
-        <h1>Headphones</h1>
+        <h1 className="uppercase">{category}</h1>
       </header>
       <section
         className={cn(

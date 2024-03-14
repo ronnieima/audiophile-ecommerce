@@ -40,7 +40,10 @@ export default function ProductItem({ product }: ProductItemProps) {
         <h2 className="max-w-xs">{product.name}</h2>
         <p className="max-w-md">{product.description}</p>
         <Button asChild>
-          <Link href={product.slug} className="uppercase">
+          <Link
+            href={`${product.category}/${product.slug}`}
+            className="uppercase"
+          >
             See product
           </Link>
         </Button>
