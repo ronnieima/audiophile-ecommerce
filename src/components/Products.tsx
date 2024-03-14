@@ -16,9 +16,9 @@ export default function Products() {
         <div
           style={{ background: "primary" }}
           className={cn(
-            "relative -z-50 flex h-full w-full flex-col items-center justify-center gap-8 rounded-lg bg-primary p-8 py-32 text-white",
+            "relative -z-50 flex h-[64rem] w-full flex-col items-center justify-center gap-8 rounded-lg bg-primary p-8  text-white",
+            "lg:h-[48rem] lg:flex-row lg:items-center lg:gap-64 lg:overflow-y-clip lg:p-0 lg:px-16",
           )}
-          // bg-patternCircles bg-cover bg-[center_-7rem] bg-no-repeat
         >
           <Image
             src={"/assets/home/desktop/pattern-circles.svg"}
@@ -27,27 +27,42 @@ export default function Products() {
             className=" absolute top-0 -z-10  w-full"
             alt=""
           />
-          <div className="w-1/2 sm:w-1/4">
+          <div className=" flex h-full w-1/2 items-end sm:w-1/4 lg:w-1/2">
             <Image
               src={"/assets/home/mobile/image-speaker-zx9.png"}
-              className=" h-auto w-full"
+              className=" h-auto w-full lg:hidden"
+              sizes="100vw"
+              width={0}
+              height={0}
+              alt="ZX9 Speaker"
+            />
+            <Image
+              src={"/assets/home/desktop/image-speaker-zx9.png"}
+              className="hidden w-full translate-y-4 lg:block"
               sizes="100vw"
               width={0}
               height={0}
               alt="ZX9 Speaker"
             />
           </div>
-          <h2 className="max-w-[16rem]">ZX9 Speaker</h2>
-          <p className="max-w-xs">
-            Upgrade to premium speakers that are phenomenally built to deliver
-            truly remarkable sound.
-          </p>
-          <Button
-            className="border-none bg-black text-white hover:bg-white hover:text-black"
-            variant={"secondary"}
+          <div
+            className={cn(
+              "flex flex-col items-center justify-center gap-8",
+              "lg:items-start lg:text-left ",
+            )}
           >
-            See product
-          </Button>
+            <h2 className="max-w-[16rem]">ZX9 Speaker</h2>
+            <p className="max-w-xs">
+              Upgrade to premium speakers that are phenomenally built to deliver
+              truly remarkable sound.
+            </p>
+            <Button
+              className="border-none bg-black text-white hover:bg-white hover:text-black"
+              variant={"secondary"}
+            >
+              See product
+            </Button>
+          </div>
         </div>
 
         <div
@@ -65,6 +80,7 @@ export default function Products() {
             className={cn(
               "h-[16rem] w-full rounded-lg bg-[url('/assets/home/mobile/image-earphones-yx1.jpg')] bg-cover",
               "sm:bg-[url('/assets/home/tablet/image-earphones-yx1.jpg')]",
+              "lg:bg-[url('/assets/home/desktop/image-earphones-yx1.jpg')]",
             )}
           ></div>
           <div className="flex h-[16rem] w-full flex-col items-start justify-center gap-8 rounded-lg bg-gray p-8 py-12">
