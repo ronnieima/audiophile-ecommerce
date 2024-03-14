@@ -1,18 +1,14 @@
 import Image from "next/image";
 import { Button } from "./ui/button";
 import { cn } from "@/lib/utils";
+import headerTablet from "@/../public/assets/home/tablet/image-header.jpg";
 
 export default function Hero() {
   return (
-    <section
-      className={cn(
-        "relative h-[36rem] w-full bg-cover bg-bottom bg-no-repeat text-white",
-        "sm:h-[48rem]",
-      )}
-    >
-      <div className="absolute h-full w-full">
+    <section className={cn("relative h-[36rem] text-white", "sm:h-[48rem]")}>
+      <div className="absolute -z-10 h-full w-full">
         <Image
-          src={"/assets/home/tablet/image-header.jpg"}
+          src={headerTablet}
           fill
           sizes="100vw"
           alt="cooked"

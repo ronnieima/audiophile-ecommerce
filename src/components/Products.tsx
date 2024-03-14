@@ -8,16 +8,25 @@ export default function Products() {
     <section>
       <div
         className={cn(
-          "flex flex-col gap-8  px-4 text-center",
+          "relative flex flex-col gap-8 px-4 text-center",
           "sm:px-8",
           "lg:mx-auto lg:max-w-7xl",
         )}
       >
         <div
+          style={{ background: "primary" }}
           className={cn(
-            "relative flex h-full w-full flex-col items-center justify-center gap-8 rounded-lg bg-primary bg-patternCircles bg-cover bg-[center_-7rem] bg-no-repeat p-8 py-32 text-white",
+            "relative flex h-full w-full flex-col items-center justify-center gap-8 rounded-lg bg-primary p-8 py-32 text-white",
           )}
+          // bg-patternCircles bg-cover bg-[center_-7rem] bg-no-repeat
         >
+          <Image
+            src={"/assets/home/desktop/pattern-circles.svg"}
+            width={0}
+            height={0}
+            className="absolute top-12 h-auto w-full"
+            alt=""
+          />
           <div className="w-1/2 sm:w-1/4">
             <Image
               src={"/assets/home/mobile/image-speaker-zx9.png"}

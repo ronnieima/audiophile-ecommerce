@@ -17,6 +17,7 @@ export default function Footer() {
         className={cn(
           "flex flex-col items-center gap-16 px-4 text-center ",
           "sm:items-start  sm:gap-8 sm:text-left",
+          "lg:mx-auto lg:max-w-7xl",
         )}
       >
         <Logo />
