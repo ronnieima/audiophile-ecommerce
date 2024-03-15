@@ -1,41 +1,32 @@
 import { cn } from "@/lib/utils";
-import Image from "next/image";
-import React from "react";
+import MaxWidthContainer from "../ui/MaxWidthContainer";
 
 export default function CallToAction() {
   return (
-    <section className="px-4 py-8 pb-32 text-center">
-      <div
+    <section className="py-8">
+      <MaxWidthContainer
         className={cn(
-          "flex flex-col items-center justify-center gap-16 ",
-          "lg:mx-auto lg:max-w-7xl lg:flex-row-reverse",
+          "mx-auto flex max-w-7xl flex-col items-center justify-center gap-16 pb-32",
+          " lg:flex-row-reverse lg:gap-0",
         )}
       >
-        <Image
-          src={"/assets/shared/mobile/image-best-gear.jpg"}
-          height={0}
-          width={0}
-          sizes="100vw"
-          className="h-auto w-full rounded-lg sm:hidden"
-          alt="a black-and-white image of a man wearing headphones posing"
-        />
-        <Image
-          src={"/assets/shared/tablet/image-best-gear.jpg"}
-          height={0}
-          width={0}
-          sizes="100vw"
-          className="hidden h-auto w-full rounded-lg sm:block lg:hidden"
-          alt="a black-and-white image of a man wearing headphones posing"
-        />
-        <Image
-          src={"/assets/shared/desktop/image-best-gear.jpg"}
-          height={0}
-          width={0}
-          sizes="100vw"
-          className=" hidden h-auto w-2/4 rounded-lg lg:block"
-          alt="a black-and-white image of a man wearing headphones posing"
-        />
-        <div className="flex flex-col items-center justify-center gap-8 lg:items-start lg:text-left">
+        <picture>
+          <source
+            media="(min-width:1024px)"
+            srcSet={"/assets/shared/desktop/image-best-gear.jpg"}
+          />
+          <source
+            media="(min-width:640px)"
+            srcSet={"/assets/shared/tablet/image-best-gear.jpg"}
+          />
+          <img
+            src="/assets/shared/mobile/image-best-gear.jpg"
+            alt="a black-and-white image of a man wearing headphones posing"
+            className="rounded-lg"
+          />
+        </picture>
+
+        <div className="flex flex-col items-center justify-center gap-8 text-center  lg:items-start lg:text-left">
           <h2 className="sm:max-w-xl">
             Bringing you the <span className="text-primary">best</span> audio
             gear
@@ -49,7 +40,7 @@ export default function CallToAction() {
             make Audiophile the best place to buy your portable audio equipment.
           </p>
         </div>
-      </div>
+      </MaxWidthContainer>
     </section>
   );
 }
