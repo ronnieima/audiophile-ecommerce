@@ -1,5 +1,7 @@
 import CallToAction from "@/components/Home/CallToAction";
 import Categories from "@/components/Home/Categories";
+import AddToCartButton from "@/components/ui/AddToCartButton";
+import Counter from "@/components/ui/Counter";
 import { getProduct } from "@/lib/actions";
 import Link from "next/link";
 import { notFound } from "next/navigation";
@@ -29,6 +31,10 @@ export default async function ProductPage({
         <h1>{product.name}</h1>
         <p>{product.description}</p>
         <h3>$ {product.price}</h3>
+        <div className="flex gap-4">
+          <Counter />
+          <AddToCartButton />
+        </div>
 
         <h2 className="uppercase">Features</h2>
         <p>{product.features}</p>
