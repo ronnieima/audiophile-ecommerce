@@ -5,8 +5,8 @@ import MaxWidthContainer from "../ui/MaxWidthContainer";
 
 export default function Categories() {
   return (
-    <section>
-      <MaxWidthContainer className=" gap-24 sm:flex-row sm:gap-4 sm:px-8">
+    <section className="w-full">
+      <MaxWidthContainer className="w-full gap-24 sm:flex-row sm:gap-4 sm:px-8">
         {categories.map((category) => (
           <Category
             key={category.title}
