@@ -13,7 +13,7 @@ export default function MaxWidthContainer({
   return (
     <div
       className={cn(
-        "relative mx-auto flex h-full w-full max-w-7xl flex-col items-center justify-center px-8",
+        "relative mx-auto flex h-full w-full max-w-7xl flex-col items-center justify-center px-4 sm:px-8",
         className,
       )}
     >
