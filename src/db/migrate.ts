@@ -4,7 +4,7 @@ import { migrate } from "drizzle-orm/neon-http/migrator";
 import { config } from "dotenv";
 config({ path: ".env.local" });
 const sql: NeonQueryFunction<boolean, boolean> = neon(
-  process.env.DRIZZLE_DATABASE_URL!,
+  process.env.DATABASE_URL!,
 );
 const db = drizzle(sql);
 const main = async () => {

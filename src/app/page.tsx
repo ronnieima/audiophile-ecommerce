@@ -6,7 +6,7 @@ import { getServerSession } from "next-auth";
 
 export default async function HomePage() {
   const session = await getServerSession();
-
+  console.log(!!session);
   return (
     <main className="flex flex-col items-stretch justify-center gap-32 ">
       <Hero />

@@ -1,3 +1,4 @@
+import Link from "next/link";
 import Cart from "./ui/Cart";
 import Logo from "./ui/Logo";
 import MaxWidthContainer from "./ui/MaxWidthContainer";
@@ -22,6 +23,7 @@ export default function Navbar() {
 
         <div>
           <SignInButton />
+          <Link href={"/register"}>Register</Link>
           <Cart />
         </div>
       </MaxWidthContainer>

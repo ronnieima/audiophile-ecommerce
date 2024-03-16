@@ -1,11 +1,20 @@
 import db from "@/db";
+import { users } from "@/db/schema";
 import { DrizzleAdapter } from "@auth/drizzle-adapter";
+import bcrypt from "bcrypt";
+import { eq } from "drizzle-orm";
 import NextAuth from "next-auth";
 import { Adapter } from "next-auth/adapters";
 import CredentialsProvider from "next-auth/providers/credentials";
 
 const handler = NextAuth({
   adapter: DrizzleAdapter(db) as Adapter,
+  callbacks: {
+    async session({ session, user, token }) {
+      console.log({ session, user, token });
+      return session;
+    },
+  },
   providers: [
     CredentialsProvider({
       name: "Credentials",
@@ -14,18 +23,25 @@ const handler = NextAuth({
         username: { label: "Username", type: "text", placeholder: "jsmith" },
         password: { label: "Password", type: "password" },
       },
-      async authorize(credentials, req) {
-        // Add logic here to look up the user from the credentials supplied
-        const user = { id: "1", name: "J Smith", email: "jsmith@example.com" };
+      async authorize(credentials) {
+        if (!credentials?.username || !credentials.password) return null;
 
-        if (user) {
-          // Any object returned will be saved in `user` property of the JWT
-          console.log(user);
-          return user;
-        } else {
-          // If you return null then an error will be displayed advising the user to check their details.
-          return null;
-        }
+        const data = await db
+          .select()
+          .from(users)
+          .where(eq(users.username, credentials.username));
+        const user = data[0];
+
+        if (!user) return null;
+
+        const passwordsMatch = await bcrypt.compare(
+          credentials.password,
+          user.hashedPassword,
+        );
+
+        if (!passwordsMatch) return null;
+
+        return user;
       },
     }),
   ],
