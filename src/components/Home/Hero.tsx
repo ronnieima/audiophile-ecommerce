@@ -3,6 +3,7 @@ import { Button } from "../ui/button";
 import { cn } from "@/lib/utils";
 import headerTablet from "@/../public/assets/home/tablet/image-header.jpg";
 import MaxWidthContainer from "../ui/MaxWidthContainer";
+import Link from "next/link";
 
 export default function Hero() {
   return (
@@ -12,14 +13,14 @@ export default function Hero() {
           src={headerTablet}
           fill
           sizes="100vw"
-          alt="cooked"
+          alt="hero"
           className=" -z-10 h-auto w-full object-cover lg:hidden"
         />
         <Image
           src={"/assets/home/desktop/image-hero.jpg"}
           fill
           sizes="100vw"
-          alt="cooked"
+          alt="hero"
           className=" -z-10 hidden h-auto w-full object-cover lg:block"
         />
       </picture>
@@ -36,8 +37,13 @@ export default function Hero() {
           Experience natural, lifelike audio and exceptional build quality made
           for the passionate music enthusiast.
         </p>
-        <Button className="text-xs uppercase" variant="default">
-          See product
+        <Button asChild>
+          <Link
+            href={"/headphones/xx99-mark-two-headphones"}
+            className="text-xs uppercase"
+          >
+            See product
+          </Link>
         </Button>
       </MaxWidthContainer>
     </section>
