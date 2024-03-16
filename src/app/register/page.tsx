@@ -4,8 +4,7 @@ import React from "react";
 
 export default function RegisterPage() {
   async function handleSubmit(formData: FormData) {
-    const data = await registerUser(formData);
-    console.log(data);
+    await registerUser(formData);
   }
 
   return (

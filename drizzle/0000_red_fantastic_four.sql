@@ -22,9 +22,12 @@ CREATE TABLE IF NOT EXISTS "session" (
 CREATE TABLE IF NOT EXISTS "user" (
 	"id" text PRIMARY KEY NOT NULL,
 	"name" text,
-	"email" text NOT NULL,
+	"email" text,
 	"emailVerified" timestamp,
-	"image" text
+	"image" text,
+	"username" text NOT NULL,
+	"hashedPassword" text NOT NULL,
+	CONSTRAINT "user_username_unique" UNIQUE("username")
 );
 --> statement-breakpoint
 CREATE TABLE IF NOT EXISTS "verificationToken" (

@@ -5,8 +5,12 @@ import MaxWidthContainer from "./ui/MaxWidthContainer";
 import MobileMenu from "./ui/MobileMenu";
 import NavLinks from "./ui/NavLinks";
 import SignInButton from "./ui/SignInButton";
+import { getServerSession } from "next-auth";
+import { authOptions } from "@/app/api/auth/[...nextauth]/route";
+import SignOutButton from "./ui/SignOutButton";
 
-export default function Navbar() {
+export default async function Navbar() {
+  const session = await getServerSession(authOptions);
   return (
     <nav className="relative z-[999] bg-black text-white" id="navbar">
       <MaxWidthContainer className="h-24 w-full flex-row justify-between">
@@ -22,8 +26,15 @@ export default function Navbar() {
         <NavLinks className="hidden lg:flex" />
 
         <div>
-          <SignInButton />
-          <Link href={"/register"}>Register</Link>
+          {session ? (
+            <SignOutButton />
+          ) : (
+            <>
+              <SignInButton />
+              <Link href={"/register"}>Register</Link>
+            </>
+          )}
+
           <Cart />
         </div>
       </MaxWidthContainer>

@@ -3,17 +3,25 @@ import { users } from "@/db/schema";
 import { DrizzleAdapter } from "@auth/drizzle-adapter";
 import bcrypt from "bcrypt";
 import { eq } from "drizzle-orm";
-import NextAuth from "next-auth";
+import NextAuth, { AuthOptions } from "next-auth";
 import { Adapter } from "next-auth/adapters";
 import CredentialsProvider from "next-auth/providers/credentials";
 
-const handler = NextAuth({
+export const authOptions: AuthOptions = {
   adapter: DrizzleAdapter(db) as Adapter,
   callbacks: {
-    async session({ session, user, token }) {
-      console.log({ session, user, token });
+    async session({ session, token, user }) {
+      console.log(token.user);
       return session;
     },
+    async jwt({ token, user, account, profile }) {
+      return {
+        ...token,
+      };
+    },
+  },
+  session: {
+    strategy: "jwt",
   },
   providers: [
     CredentialsProvider({
@@ -40,11 +48,12 @@ const handler = NextAuth({
         );
 
         if (!passwordsMatch) return null;
-
         return user;
       },
     }),
   ],
-});
+};
+
+const handler = NextAuth(authOptions);
 
 export { handler as GET, handler as POST };

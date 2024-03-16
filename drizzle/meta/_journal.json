@@ -5,29 +5,8 @@
     {
       "idx": 0,
       "version": "5",
-      "when": 1710588001663,
-      "tag": "0000_sour_sleeper",
-      "breakpoints": true
-    },
-    {
-      "idx": 1,
-      "version": "5",
-      "when": 1710589582476,
-      "tag": "0001_salty_sphinx",
-      "breakpoints": true
-    },
-    {
-      "idx": 2,
-      "version": "5",
-      "when": 1710591742692,
-      "tag": "0002_glossy_whirlwind",
-      "breakpoints": true
-    },
-    {
-      "idx": 3,
-      "version": "5",
-      "when": 1710592046980,
-      "tag": "0003_colossal_enchantress",
+      "when": 1710602639951,
+      "tag": "0000_red_fantastic_four",
       "breakpoints": true
     }
   ]
