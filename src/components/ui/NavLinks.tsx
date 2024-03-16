@@ -9,7 +9,7 @@ export default function NavLinks() {
       {navLinks.map((link) => (
         <li key={link.label}>
           <Button asChild variant={"link"} className="w-full px-0">
-            <Link href={link.href} className="text-white">
+            <Link href={link.href} replace className="text-white">
               {link.label}
             </Link>
           </Button>

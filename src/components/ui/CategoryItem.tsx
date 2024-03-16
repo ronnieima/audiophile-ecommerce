@@ -29,11 +29,7 @@ export default function CategoryItem({
       </div>
       <h6>{title}</h6>
       <Button asChild variant={"link"}>
-        <Link
-          href={href}
-          className="text-subtitle flex gap-2 text-black"
-          target="_blank"
-        >
+        <Link href={href} className="text-subtitle flex gap-2 text-black">
           Shop <ArrowRight />
         </Link>
       </Button>

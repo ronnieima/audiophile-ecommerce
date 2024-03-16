@@ -7,7 +7,7 @@ export default function CallToAction() {
       <MaxWidthContainer
         className={cn(
           "mx-auto flex max-w-7xl flex-col items-center justify-center gap-16 pb-32",
-          " lg:flex-row-reverse lg:gap-0",
+          " lg:flex-row-reverse",
         )}
       >
         <picture>
