@@ -2,9 +2,9 @@ import { Menu, ShoppingCart } from "lucide-react";
 import React from "react";
 import Logo from "./ui/Logo";
 import NavLinks from "./ui/NavLinks";
-import Link from "next/link";
 import MaxWidthContainer from "./ui/MaxWidthContainer";
 import MobileMenu from "./ui/MobileMenu";
+import Cart from "./ui/Cart";
 
 export default function Navbar() {
   return (
@@ -20,7 +20,7 @@ export default function Navbar() {
         </div>
 
         <NavLinks className="hidden lg:flex" />
-        <ShoppingCart />
+        <Cart />
       </MaxWidthContainer>
     </nav>
   );
