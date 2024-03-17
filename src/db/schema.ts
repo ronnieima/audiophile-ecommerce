@@ -1,9 +1,13 @@
 import type { AdapterAccount } from "@auth/core/adapters";
 import { randomUUID } from "crypto";
 import {
+  boolean,
+  decimal,
   integer,
+  json,
   pgTable,
   primaryKey,
+  serial,
   text,
   timestamp,
 } from "drizzle-orm/pg-core";
@@ -65,11 +69,48 @@ export const verificationTokens = pgTable(
   }),
 );
 
-export const cart = pgTable("cart", {
-  id: text("id").$default(() => randomUUID()),
-  userId: text("userId")
-    .notNull()
-    .references(() => users.id),
+export const products = pgTable("product", {
+  id: serial("id").notNull().unique().primaryKey(),
+  slug: text("slug"),
+  name: text("name"),
+  image: json("image").$type<{
+    mobile: string;
+    tablet: string;
+    desktop: string;
+  }>(),
+  category: text("category"),
+  categryImage: json("categryImage").$type<{
+    mobile: string;
+    tablet: string;
+    desktop: string;
+  }>(),
+  new: boolean("new"),
+  price: decimal("price"),
+  description: text("description"),
+  features: text("features"),
+  gallery: json("gallery").$type<{
+    first: { mobile: string; tablet: string; desktop: string };
+    second: { mobile: string; tablet: string; desktop: string };
+    third: { mobile: string; tablet: string; desktop: string };
+  }>(),
+  others: integer("others").array(),
 });
 
-export const cart_item = pgTable("cart_item", {});
+export const includedItems = pgTable("included_items", {
+  id: serial("id").primaryKey().notNull(),
+  name: text("name").notNull(),
+  quantity: integer("quantity").notNull(),
+  productId: integer("productId")
+    .references(() => products.id)
+    .notNull(),
+});
+
+export const cartIitem = pgTable("cart_item", {
+  id: text("id")
+    .$default(() => randomUUID())
+    .primaryKey()
+    .notNull(),
+  userId: integer("userId").references(() => users.id),
+  productId: integer("productId").references(() => products.id),
+  quantity: integer("quantity"),
+});

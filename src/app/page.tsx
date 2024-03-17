@@ -6,8 +6,6 @@ import { getServerSession } from "next-auth";
 import { authOptions } from "./api/auth/[...nextauth]/route";
 
 export default async function HomePage() {
-  const session = await getServerSession(authOptions);
-  console.log("main page", session?.user);
   return (
     <main className="flex flex-col items-stretch justify-center gap-32 ">
       <Hero />

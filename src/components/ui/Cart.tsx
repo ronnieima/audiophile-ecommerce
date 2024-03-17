@@ -16,7 +16,6 @@ import Counter from "./Counter";
 import { Button } from "./button";
 
 export default function Cart() {
-  const [showCart, setShowCart] = useState(false);
   const [headphones, setHeadphones] = useState<Product[]>();
   useEffect(() => {
     async function getHeadphones() {
