@@ -93,10 +93,10 @@ export const products = pgTable("product", {
     second: { mobile: string; tablet: string; desktop: string };
     third: { mobile: string; tablet: string; desktop: string };
   }>(),
-  others: integer("others").array(),
+  others: text("others"),
 });
 
-export const includedItems = pgTable("included_items", {
+export const includedItems = pgTable("includedItems", {
   id: serial("id").primaryKey().notNull(),
   name: text("name").notNull(),
   quantity: integer("quantity").notNull(),
@@ -105,12 +105,12 @@ export const includedItems = pgTable("included_items", {
     .notNull(),
 });
 
-export const cartIitem = pgTable("cart_item", {
+export const cartItem = pgTable("cartItem", {
   id: text("id")
     .$default(() => randomUUID())
     .primaryKey()
     .notNull(),
-  userId: integer("userId").references(() => users.id),
+  userId: text("userId").references(() => users.id),
   productId: integer("productId").references(() => products.id),
   quantity: integer("quantity"),
 });

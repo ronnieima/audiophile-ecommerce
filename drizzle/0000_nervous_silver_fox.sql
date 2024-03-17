@@ -13,6 +13,36 @@ CREATE TABLE IF NOT EXISTS "account" (
 	CONSTRAINT "account_provider_providerAccountId_pk" PRIMARY KEY("provider","providerAccountId")
 );
 --> statement-breakpoint
+CREATE TABLE IF NOT EXISTS "cartItem" (
+	"id" text PRIMARY KEY NOT NULL,
+	"userId" text,
+	"productId" integer,
+	"quantity" integer
+);
+--> statement-breakpoint
+CREATE TABLE IF NOT EXISTS "includedItems" (
+	"id" serial PRIMARY KEY NOT NULL,
+	"name" text NOT NULL,
+	"quantity" integer NOT NULL,
+	"productId" integer NOT NULL
+);
+--> statement-breakpoint
+CREATE TABLE IF NOT EXISTS "product" (
+	"id" serial PRIMARY KEY NOT NULL,
+	"slug" text,
+	"name" text,
+	"image" json,
+	"category" text,
+	"categryImage" json,
+	"new" boolean,
+	"price" numeric,
+	"description" text,
+	"features" text,
+	"gallery" json,
+	"others" text,
+	CONSTRAINT "product_id_unique" UNIQUE("id")
+);
+--> statement-breakpoint
 CREATE TABLE IF NOT EXISTS "session" (
 	"sessionToken" text PRIMARY KEY NOT NULL,
 	"userId" text NOT NULL,
@@ -39,6 +69,24 @@ CREATE TABLE IF NOT EXISTS "verificationToken" (
 --> statement-breakpoint
 DO $$ BEGIN
  ALTER TABLE "account" ADD CONSTRAINT "account_userId_user_id_fk" FOREIGN KEY ("userId") REFERENCES "user"("id") ON DELETE cascade ON UPDATE no action;
+EXCEPTION
+ WHEN duplicate_object THEN null;
+END $$;
+--> statement-breakpoint
+DO $$ BEGIN
+ ALTER TABLE "cartItem" ADD CONSTRAINT "cartItem_userId_user_id_fk" FOREIGN KEY ("userId") REFERENCES "user"("id") ON DELETE no action ON UPDATE no action;
+EXCEPTION
+ WHEN duplicate_object THEN null;
+END $$;
+--> statement-breakpoint
+DO $$ BEGIN
+ ALTER TABLE "cartItem" ADD CONSTRAINT "cartItem_productId_product_id_fk" FOREIGN KEY ("productId") REFERENCES "product"("id") ON DELETE no action ON UPDATE no action;
+EXCEPTION
+ WHEN duplicate_object THEN null;
+END $$;
+--> statement-breakpoint
+DO $$ BEGIN
+ ALTER TABLE "includedItems" ADD CONSTRAINT "includedItems_productId_product_id_fk" FOREIGN KEY ("productId") REFERENCES "product"("id") ON DELETE no action ON UPDATE no action;
 EXCEPTION
  WHEN duplicate_object THEN null;
 END $$;
