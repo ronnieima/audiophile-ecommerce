@@ -23,7 +23,7 @@ export default function ProductItem({ product }: ProductItemProps) {
         />
         <source
           media="(min-width:640px)"
-          srcSet={product.categoryImage.tablet.slice(1)}
+          srcSet={product.categoryImage?.tablet.slice(1)}
         />
         <img src={product.image.mobile.slice(1)} alt={product.name} />
       </picture>

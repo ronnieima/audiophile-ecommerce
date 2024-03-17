@@ -93,6 +93,7 @@ export const products = pgTable("product", {
     second: { mobile: string; tablet: string; desktop: string };
     third: { mobile: string; tablet: string; desktop: string };
   }>(),
+  //TODO figure out others
   others: text("others"),
 });
 

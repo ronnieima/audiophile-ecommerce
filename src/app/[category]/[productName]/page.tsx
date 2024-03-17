@@ -4,7 +4,7 @@ import AddToCartButton from "@/components/ui/AddToCartButton";
 import Counter from "@/components/ui/Counter";
 import MaxWidthContainer from "@/components/ui/MaxWidthContainer";
 import { Button } from "@/components/ui/button";
-import { getProduct } from "@/lib/actions";
+import { getIncludedItems, getProduct } from "@/lib/actions";
 import { cn } from "@/lib/utils";
 import Link from "next/link";
 import { notFound } from "next/navigation";
@@ -18,6 +18,7 @@ export default async function ProductPage({
 }: ProductPageProps) {
   const product = await getProduct(productName);
   if (!product) return notFound();
+  const includedItems = await getIncludedItems(product.id);
 
   return (
     <main className="flex flex-col items-stretch justify-center gap-32 ">
@@ -62,10 +63,10 @@ export default async function ProductPage({
         <section className="flex w-full flex-col gap-8 self-start sm:flex-row  sm:text-left lg:flex-col">
           <h4 className="uppercase sm:w-1/2">In The Box</h4>
           <ul className="flex flex-col gap-2">
-            {product.includes.map((item) => (
-              <li key={item.item} className="flex items-center gap-4">
+            {includedItems.map((item) => (
+              <li key={item.id} className="flex items-center gap-4">
                 <h6 className="lowercase text-primary">{item.quantity}x</h6>
-                <p>{item.item}</p>
+                <p>{item.name}</p>
               </li>
             ))}
           </ul>
@@ -127,7 +128,7 @@ export default async function ProductPage({
       <section className="space-y-8">
         <h5 className="text-center uppercase">You May Also Like</h5>
         <MaxWidthContainer className="flex flex-col gap-8 sm:flex-row lg:gap-8">
-          {product.others.map((suggestion) => (
+          {product.others?.map((suggestion) => (
             <div
               key={suggestion.name}
               className={cn(

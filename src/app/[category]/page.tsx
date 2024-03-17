@@ -1,8 +1,11 @@
 import CallToAction from "@/components/Home/CallToAction";
 import Categories from "@/components/Home/Categories";
 import ProductItem from "@/components/ui/ProductItem";
+import { Product } from "@/data";
+import { products } from "@/db/schema";
 import { getProducts } from "@/lib/actions";
 import { cn } from "@/lib/utils";
+import { InferSelectModel } from "drizzle-orm";
 import { notFound } from "next/navigation";
 
 type CategoryPageProps = {
@@ -12,8 +15,8 @@ type CategoryPageProps = {
 export default async function CategoryPage({
   params: { category },
 }: CategoryPageProps) {
-  const products = await getProducts(category);
-  if (products.length === 0) return notFound();
+  const filteredProducts = await getProducts(category);
+  if (!filteredProducts) return notFound();
   return (
     <main>
       <header
@@ -30,7 +33,7 @@ export default async function CategoryPage({
           "sm:space-y-24 sm:px-8 sm:py-24",
         )}
       >
-        {products.map((product) => (
+        {filteredProducts.map((product) => (
           <ProductItem key={product.id} product={product} />
         ))}
       </section>

@@ -1,9 +1,9 @@
 "use server";
 
-import { Product, products } from "@/data";
 import db from "@/db";
-import { users } from "@/db/schema";
+import { includedItems, products, users } from "@/db/schema";
 import bcrypt from "bcrypt";
+import { eq } from "drizzle-orm";
 
 export async function registerUser(formData: FormData) {
   const username = formData.get("username") as string;
@@ -21,10 +21,20 @@ export async function getProducts(
   category?: "headphones" | "speakers" | "earphones",
 ) {
   if (category) {
-    return products.filter((product: Product) => product.category === category);
+    const data = await db.select().from(products);
+    return data;
   } else return products;
 }
 
 export async function getProduct(productName: string) {
-  return products.filter((product) => product.slug === productName).at(0);
+  return await db.query.products.findFirst({
+    where: eq(products.slug, productName),
+  });
+}
+
+export async function getIncludedItems(productId: number) {
+  return await db
+    .select()
+    .from(includedItems)
+    .where(eq(includedItems.productId, productId));
 }
