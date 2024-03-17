@@ -9,20 +9,11 @@ import CredentialsProvider from "next-auth/providers/credentials";
 
 export const authOptions: AuthOptions = {
   adapter: DrizzleAdapter(db) as Adapter,
-  callbacks: {
-    async session({ session, token, user }) {
-      console.log(token.user);
-      return session;
-    },
-    async jwt({ token, user, account, profile }) {
-      return {
-        ...token,
-      };
-    },
-  },
+
   session: {
     strategy: "jwt",
   },
+
   providers: [
     CredentialsProvider({
       name: "Credentials",
@@ -52,6 +43,23 @@ export const authOptions: AuthOptions = {
       },
     }),
   ],
+  callbacks: {
+    async session({ session, token }) {
+      const userId = token.sub;
+      if (!userId) return session;
+
+      const data = await db.query.users.findFirst({
+        columns: { username: true },
+        where: () => eq(users.id, userId),
+      });
+      const username = data?.username;
+      if (!username) return session;
+      return {
+        ...session,
+        user: { id: userId, username },
+      };
+    },
+  },
 };
 
 const handler = NextAuth(authOptions);
