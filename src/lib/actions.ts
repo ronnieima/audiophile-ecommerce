@@ -1,7 +1,7 @@
 "use server";
 
 import db from "@/db";
-import { includedItems, products, users } from "@/db/schema";
+import { cartItem, includedItems, products, users } from "@/db/schema";
 import bcrypt from "bcrypt";
 import { eq } from "drizzle-orm";
 
@@ -14,6 +14,18 @@ export async function registerUser(formData: FormData) {
     await db.insert(users).values({ username, hashedPassword });
   } catch (error: any) {
     if (error.code === "23505") console.log("duplicate found");
+  }
+}
+
+export async function addToCart(
+  productId: number,
+  quantity: number,
+  userId: string,
+) {
+  try {
+    return await db.insert(cartItem).values({ productId, quantity, userId });
+  } catch (error) {
+    console.log(error);
   }
 }
 

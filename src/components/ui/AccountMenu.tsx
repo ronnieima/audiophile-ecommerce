@@ -8,12 +8,10 @@ import {
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
 import { User } from "lucide-react";
-import { signIn, signOut, useSession } from "next-auth/react";
-import { useRouter } from "next/navigation";
+import { signOut, useSession } from "next-auth/react";
 
 export default function AccountMenu() {
   const session = useSession();
-  const router = useRouter();
   return (
     <DropdownMenu>
       <DropdownMenuTrigger>

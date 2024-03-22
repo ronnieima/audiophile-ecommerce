@@ -5,6 +5,7 @@ import Counter from "@/components/ui/Counter";
 import MaxWidthContainer from "@/components/ui/MaxWidthContainer";
 import { Button } from "@/components/ui/button";
 import {
+  addToCart,
   getIncludedItems,
   getProductById,
   getProductBySlug,
@@ -12,6 +13,7 @@ import {
 import { cn } from "@/lib/utils";
 import Link from "next/link";
 import { notFound } from "next/navigation";
+import AddToCart from "./_components/AddToCart";
 
 type ProductPageProps = {
   params: { productName: string };
@@ -50,10 +52,7 @@ export default async function ProductPage({
             <h2 className="max-w-xs">{product.name}</h2>
             <p className="max-w-sm">{product.description}</p>
             <h3>$ {product.price}</h3>
-            <div className="flex gap-4">
-              <Counter />
-              <AddToCartButton />
-            </div>
+            <AddToCart productId={product.id} />
           </div>
         </MaxWidthContainer>
       </section>
