@@ -13,6 +13,7 @@ import {
   DialogContent,
   DialogHeader,
   DialogTitle,
+  DialogTrigger,
 } from "./dialog";
 import RemoveAllButton from "./RemoveAllButton";
 
@@ -34,11 +35,13 @@ export default async function Cart() {
   const cart = await getCart(userId);
 
   const isEmptyCart = cart.length === 0;
-
+  const cartSize = cart.length;
   const totalPrice = calculateTotalPrice(cart);
   return (
     <Dialog>
-      <CartIcon />
+      <DialogTrigger className="relative">
+        <CartIcon cartSize={cartSize} />
+      </DialogTrigger>
       <DialogContent className="overflow-auto">
         <DialogHeader className="flex-row items-center justify-between">
           <DialogTitle className=" uppercase">Cart</DialogTitle>
@@ -61,7 +64,7 @@ export default async function Cart() {
                 <CartItem
                   key={cartItem.id}
                   product={product}
-                  defaultQuantity={cartItem.quantity}
+                  cartItem={cartItem}
                 />
               );
             })}

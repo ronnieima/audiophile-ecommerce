@@ -3,11 +3,18 @@ import Image from "next/image";
 import React, { useState } from "react";
 import Counter from "./Counter";
 import { Product } from "@/data";
+import { Trash } from "lucide-react";
+import { Button } from "./button";
+import { InferSelectModel } from "drizzle-orm";
+import { cartItem } from "@/db/schema";
+import DeleteButton from "./DeleteButton";
 
-type Props = { product: Product; defaultQuantity: number };
+type CartItem = InferSelectModel<typeof cartItem>;
 
-export default function CartItem({ product, defaultQuantity }: Props) {
-  const [quantity, setQuantity] = useState(defaultQuantity);
+type Props = { product: Product; cartItem: CartItem };
+
+export default function CartItem({ product, cartItem }: Props) {
+  const [quantity, setQuantity] = useState(cartItem.quantity);
   return (
     <div className="flex justify-between ">
       <div className="flex gap-4">
@@ -26,7 +33,15 @@ export default function CartItem({ product, defaultQuantity }: Props) {
           <p>${product.price}</p>
         </div>
       </div>
-      <Counter quantity={quantity} setQuantity={setQuantity} />
+      <div className="flex items-center justify-end gap-4">
+        <Counter
+          quantity={quantity}
+          setQuantity={setQuantity}
+          isInCart
+          cartItemId={cartItem.id}
+        />
+        <DeleteButton cartItemId={cartItem.id} />
+      </div>
     </div>
   );
 }

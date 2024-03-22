@@ -1,12 +1,17 @@
 "use client";
-import React from "react";
-import { DialogTrigger } from "./dialog";
 import { ShoppingCart } from "lucide-react";
 
-export default function CartIcon() {
+type Props = { cartSize: number };
+
+export default function CartIcon({ cartSize }: Props) {
   return (
-    <DialogTrigger>
+    <>
       <ShoppingCart />
-    </DialogTrigger>
+      {!!cartSize && (
+        <p className="absolute inset-0 flex h-4 w-4 -translate-y-2 translate-x-4 items-center justify-center rounded-full bg-red-900 text-[0.60rem] font-bold">
+          {cartSize}
+        </p>
+      )}
+    </>
   );
 }

@@ -38,10 +38,11 @@ export async function addToCart(
         .where(
           eq(cartItem.userId, userId) && eq(cartItem.productId, productId),
         );
+      revalidatePath("/");
     } else {
       await db.insert(cartItem).values({ productId, quantity, userId });
+      revalidatePath("/");
     }
-    revalidatePath("/");
   } catch (error) {
     throw error;
   }
@@ -83,6 +84,31 @@ export async function getIncludedItems(productId: number) {
     .select()
     .from(includedItems)
     .where(eq(includedItems.productId, productId));
+}
+
+export async function updateCartItemQuantity(
+  cartItemId: string,
+  operation: "increment" | "decrement",
+) {
+  const updateNumber = operation === "increment" ? 1 : -1;
+  let currentQuantity = await db.query.cartItem.findFirst({
+    columns: { quantity: true },
+    where: eq(cartItem.id, cartItemId),
+  });
+  if (currentQuantity?.quantity! <= 0 && operation === "decrement") return;
+
+  await db
+    .update(cartItem)
+    .set({
+      quantity: currentQuantity?.quantity! + updateNumber,
+    })
+    .where(eq(cartItem.id, cartItemId));
+  revalidatePath("/");
+}
+
+export async function deleteCartItem(cartItemId: string) {
+  await db.delete(cartItem).where(eq(cartItem.id, cartItemId));
+  revalidatePath("/");
 }
 
 export async function deleteAllCartItems(userId: string) {
