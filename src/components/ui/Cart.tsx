@@ -1,5 +1,10 @@
-"use client";
+import { deleteAllCartItems, getCart } from "@/lib/actions";
+import { ShoppingCart } from "lucide-react";
+import { useSession } from "next-auth/react";
 import { useEffect, useState } from "react";
+import { Button } from "./button";
+import CartItem from "./CartItem";
+import Counter from "./Counter";
 import {
   Dialog,
   DialogClose,
@@ -8,55 +13,34 @@ import {
   DialogTitle,
   DialogTrigger,
 } from "./dialog";
-import { ShoppingCart } from "lucide-react";
-import { getProducts } from "@/lib/actions";
-import { Product } from "@/data";
-import Image from "next/image";
-import Counter from "./Counter";
-import { Button } from "./button";
+import { InferSelectModel } from "drizzle-orm";
+import { cartItem } from "@/db/schema";
+import CartItems from "./CartItems";
+import CartIcon from "./CartIcon";
+import { getServerSession } from "next-auth";
+import { authOptions } from "@/app/api/auth/[...nextauth]/route";
+import RemoveAllButton from "./RemoveAllButton";
 
-export default function Cart() {
-  const [headphones, setHeadphones] = useState<Product[]>();
-  useEffect(() => {
-    async function getHeadphones() {
-      const headphones = await getProducts("headphones");
-      setHeadphones(headphones);
-    }
-    getHeadphones();
-  }, []);
+type CartItemType = InferSelectModel<typeof cartItem>;
 
+export default async function Cart() {
+  const session = await getServerSession(authOptions);
+  const userId = session?.user?.id;
+  if (!userId) return;
+  const cart = await getCart(userId);
   return (
     <Dialog>
-      <DialogTrigger>
-        <ShoppingCart />
-      </DialogTrigger>
+      <CartIcon />
       <DialogContent className="overflow-auto">
         <DialogHeader className="flex-row items-center justify-between">
           <DialogTitle className=" uppercase">Cart</DialogTitle>
-          <Button variant={"link"} className="mx-0 h-auto w-auto px-0">
-            Remove all
-          </Button>
+          <RemoveAllButton />
         </DialogHeader>
-        {headphones?.map((headphone) => {
+        {cart?.map((cartItem) => {
           return (
-            <div key={headphone.name} className="flex justify-between ">
-              <div className="flex gap-4">
-                <div className="relative aspect-square h-16 w-16">
-                  <Image
-                    fill
-                    className="absolute  h-full w-full"
-                    src={headphone.image.mobile.slice(1)}
-                    alt={headphone.name}
-                  />
-                </div>
-                <div className="flex flex-col items-start text-xs">
-                  <p className=" text-left font-bold">
-                    {headphone.name.replace("Headphones", "")}
-                  </p>
-                  <p>${headphone.price}</p>
-                </div>
-              </div>
-              <Counter />
+            <div key={cartItem.id} className="flex justify-between ">
+              <CartItem productId={cartItem.productId} />
+              <Counter quantity={cartItem.quantity} />
             </div>
           );
         })}

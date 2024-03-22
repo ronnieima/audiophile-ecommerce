@@ -1,14 +1,18 @@
 "use client";
-import { useState } from "react";
+import { Dispatch, SetStateAction, useState } from "react";
 import { Button } from "./button";
 
-export default function Counter() {
-  const [count, setCount] = useState(1);
+type Props = {
+  quantity?: number;
+  setQuantity: Dispatch<SetStateAction<number>>;
+};
+
+export default function Counter({ quantity, setQuantity }: Props) {
   const handleDecrement = () => {
-    if (count !== 0) setCount((prevCount) => prevCount - 1);
+    if (quantity !== 0) setQuantity((prevCount) => prevCount - 1);
   };
   const handleIncrement = () => {
-    setCount((prevCount) => prevCount + 1);
+    setQuantity((prevCount) => prevCount + 1);
   };
 
   return (
@@ -17,7 +21,7 @@ export default function Counter() {
         -
       </Button>
       <h6 className="inline-flex h-full w-10 items-center justify-center bg-gray">
-        {count}
+        {quantity}
       </h6>
       <Button className="w-10 bg-gray text-black" onClick={handleIncrement}>
         +

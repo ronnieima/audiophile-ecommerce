@@ -4,6 +4,7 @@ import db from "@/db";
 import { cartItem, includedItems, products, users } from "@/db/schema";
 import bcrypt from "bcrypt";
 import { eq } from "drizzle-orm";
+import { revalidatePath } from "next/cache";
 
 export async function registerUser(formData: FormData) {
   const username = formData.get("username") as string;
@@ -23,9 +24,34 @@ export async function addToCart(
   userId: string,
 ) {
   try {
-    return await db.insert(cartItem).values({ productId, quantity, userId });
+    const duplicateProducts = await db
+      .select()
+      .from(cartItem)
+      .where(eq(cartItem.userId, userId) && eq(cartItem.productId, productId));
+
+    const hasDuplicateProduct = duplicateProducts.length > 0;
+
+    if (hasDuplicateProduct) {
+      await db
+        .update(cartItem)
+        .set({ quantity: duplicateProducts[0].quantity + quantity })
+        .where(
+          eq(cartItem.userId, userId) && eq(cartItem.productId, productId),
+        );
+    } else {
+      await db.insert(cartItem).values({ productId, quantity, userId });
+    }
+    revalidatePath("/");
   } catch (error) {
-    console.log(error);
+    throw error;
+  }
+}
+
+export async function getCart(userId: string) {
+  try {
+    return await db.select().from(cartItem).where(eq(cartItem.userId, userId));
+  } catch (error) {
+    throw error;
   }
 }
 
@@ -57,4 +83,9 @@ export async function getIncludedItems(productId: number) {
     .select()
     .from(includedItems)
     .where(eq(includedItems.productId, productId));
+}
+
+export async function deleteAllCartItems(userId: string) {
+  await db.delete(cartItem).where(eq(cartItem.userId, userId));
+  revalidatePath("/");
 }

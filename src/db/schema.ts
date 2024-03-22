@@ -10,6 +10,7 @@ import {
   serial,
   text,
   timestamp,
+  uuid,
 } from "drizzle-orm/pg-core";
 
 export const users = pgTable("user", {
@@ -113,7 +114,7 @@ export const includedItems = pgTable("includedItems", {
 });
 
 export const cartItem = pgTable("cartItem", {
-  id: text("id")
+  id: uuid("id")
     .$default(() => randomUUID())
     .primaryKey()
     .notNull(),
