@@ -1,10 +1,10 @@
+import Footer from "@/components/Footer";
+import Providers from "@/components/Home/Providers";
+import Navbar from "@/components/Navbar";
+import { cn } from "@/lib/utils";
 import type { Metadata } from "next";
 import { Manrope } from "next/font/google";
 import "./globals.css";
-import Navbar from "@/components/Navbar";
-import Footer from "@/components/Footer";
-import { relative } from "path";
-import { cn } from "@/lib/utils";
 
 const manrope = Manrope({ subsets: ["latin"] });
 
@@ -21,9 +21,11 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body className={cn("relative h-full w-full", manrope.className)}>
-        <Navbar />
-        {children}
-        <Footer />
+        <Providers>
+          <Navbar />
+          {children}
+          <Footer />
+        </Providers>
       </body>
     </html>
   );

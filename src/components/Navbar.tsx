@@ -8,11 +8,13 @@ import SignInButton from "./ui/SignInButton";
 import { getServerSession } from "next-auth";
 import { authOptions } from "@/app/api/auth/[...nextauth]/route";
 import SignOutButton from "./ui/SignOutButton";
+import AccountMenu from "./ui/AccountMenu";
+import { Button } from "./ui/button";
 
 export default async function Navbar() {
   const session = await getServerSession(authOptions);
   return (
-    <nav className="relative z-[999] bg-black text-white" id="navbar">
+    <nav className="relative bg-black text-white" id="navbar">
       <MaxWidthContainer className="h-24 w-full flex-row justify-between">
         <MobileMenu className="sm:hidden" />
         <Logo className="sm:hidden lg:block" />
@@ -24,17 +26,19 @@ export default async function Navbar() {
         </div>
 
         <NavLinks className="hidden lg:flex" />
-
-        <div className="flex gap-2">
+        <div className="space-x-8">
           {session ? (
-            <SignOutButton />
+            <>
+              <AccountMenu />
+            </>
           ) : (
-            <div className="space-x-2">
+            <>
               <SignInButton />
-              <Link href={"/register"}>Register</Link>
-            </div>
+              <Button asChild>
+                <Link href={"/register"}>Register</Link>
+              </Button>
+            </>
           )}
-
           <Cart />
         </div>
       </MaxWidthContainer>

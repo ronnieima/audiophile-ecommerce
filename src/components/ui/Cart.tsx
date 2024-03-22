@@ -25,7 +25,6 @@ export default function Cart() {
     getHeadphones();
   }, []);
 
-  console.log(headphones);
   return (
     <Dialog>
       <DialogTrigger>

@@ -8,7 +8,11 @@ type Props = {
 };
 export default function SignInButton({ className }: Props) {
   return (
-    <Button className={cn(className)} onClick={() => signIn()}>
+    <Button
+      className={cn(className)}
+      variant={"ghost"}
+      onClick={() => signIn()}
+    >
       Sign in
     </Button>
   );
