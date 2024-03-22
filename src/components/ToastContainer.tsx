@@ -3,5 +3,5 @@
 import { ToastContainer } from "react-toastify";
 
 export default function ToastContainerClient() {
-  return <ToastContainer />;
+  return <ToastContainer position="top-center" />;
 }

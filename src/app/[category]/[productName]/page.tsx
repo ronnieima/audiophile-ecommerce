@@ -27,8 +27,12 @@ export default async function ProductPage({
     <main className="flex flex-col items-stretch justify-center gap-32 ">
       <section className=" ">
         <MaxWidthContainer className="justify-between gap-8 sm:flex-row lg:gap-16">
-          <div>
-            <Link href={`/${product.category}`}>Go Back</Link>
+          <div className="">
+            <Button asChild variant={"link"}>
+              <Link href={`/${product.category}`} className=" py-8 ">
+                Go Back
+              </Link>
+            </Button>
             <picture>
               <source
                 media="(min-width:1024px)"
