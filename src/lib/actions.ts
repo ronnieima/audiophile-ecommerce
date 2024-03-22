@@ -79,6 +79,13 @@ export async function getProductBySlug(productSlug: string) {
   });
 }
 
+export async function getCartItemQuantity(cartItemId: string) {
+  return await db.query.cartItem.findFirst({
+    columns: { quantity: true },
+    where: eq(cartItem.id, cartItemId),
+  });
+}
+
 export async function getIncludedItems(productId: number) {
   return await db
     .select()

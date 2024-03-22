@@ -1,14 +1,14 @@
 "use client";
-import { Dispatch, SetStateAction, useState } from "react";
+import { Dispatch, SetStateAction, useEffect, useState } from "react";
 import { Button } from "./button";
 import db from "@/db";
 import { cartItem } from "@/db/schema";
-import { updateCartItemQuantity } from "@/lib/actions";
+import { getCartItemQuantity, updateCartItemQuantity } from "@/lib/actions";
 
 type Props = {
   quantity: number;
   setQuantity: Dispatch<SetStateAction<number>>;
-  isInCart: boolean;
+  isInCart?: boolean;
   cartItemId?: string;
 };
 

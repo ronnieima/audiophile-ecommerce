@@ -1,12 +1,10 @@
 "use client";
-import Image from "next/image";
-import React, { useState } from "react";
-import Counter from "./Counter";
 import { Product } from "@/data";
-import { Trash } from "lucide-react";
-import { Button } from "./button";
-import { InferSelectModel } from "drizzle-orm";
 import { cartItem } from "@/db/schema";
+import { InferSelectModel } from "drizzle-orm";
+import Image from "next/image";
+import { useState } from "react";
+import Counter from "./Counter";
 import DeleteButton from "./DeleteButton";
 
 type CartItem = InferSelectModel<typeof cartItem>;
@@ -15,6 +13,7 @@ type Props = { product: Product; cartItem: CartItem };
 
 export default function CartItem({ product, cartItem }: Props) {
   const [quantity, setQuantity] = useState(cartItem.quantity);
+  console.log({ quantity });
   return (
     <div className="flex justify-between ">
       <div className="flex gap-4">
