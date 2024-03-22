@@ -4,7 +4,11 @@ import AddToCartButton from "@/components/ui/AddToCartButton";
 import Counter from "@/components/ui/Counter";
 import MaxWidthContainer from "@/components/ui/MaxWidthContainer";
 import { Button } from "@/components/ui/button";
-import { getIncludedItems, getProduct } from "@/lib/actions";
+import {
+  getIncludedItems,
+  getProductById,
+  getProductBySlug,
+} from "@/lib/actions";
 import { cn } from "@/lib/utils";
 import Link from "next/link";
 import { notFound } from "next/navigation";
@@ -16,7 +20,7 @@ type ProductPageProps = {
 export default async function ProductPage({
   params: { productName },
 }: ProductPageProps) {
-  const product = await getProduct(productName);
+  const product = await getProductBySlug(productName);
   if (!product) return notFound();
   const includedItems = await getIncludedItems(product.id);
 
@@ -128,50 +132,57 @@ export default async function ProductPage({
       <section className="space-y-8">
         <h5 className="text-center uppercase">You May Also Like</h5>
         <MaxWidthContainer className="flex flex-col gap-8 sm:flex-row lg:gap-8">
-          {product.others?.map((suggestion) => (
-            <div
-              key={suggestion.name}
-              className={cn(
-                "flex w-full  flex-col items-center justify-center gap-8 text-center",
-                " lg:justify-center lg:gap-4   ",
-              )}
-            >
-              <picture>
-                <source
-                  media="(min-width:1024px)"
-                  srcSet={suggestion.image.desktop.slice(1)}
-                />
-                <source
-                  media="(min-width:640px)"
-                  srcSet={suggestion.image.tablet.slice(1)}
-                />
-                <img
-                  src={suggestion.image.mobile.slice(1)}
-                  alt={suggestion.name}
-                  className="sm:w-full "
-                />
-              </picture>
-              <div
-                className={cn(
-                  "flex max-w-xs flex-col items-center justify-center gap-8",
-                  "sm:max-w-lg",
-                  "lg:w-1/2  lg:text-center",
-                )}
-              >
-                {product.new && (
-                  <span className="text-overline text-primary">
-                    New product
-                  </span>
-                )}
-                <h5>{suggestion.name}</h5>
-                <Button asChild>
-                  <Link href={`${suggestion.slug}`} className="uppercase">
-                    See product
-                  </Link>
-                </Button>
-              </div>
-            </div>
-          ))}
+          {product.others?.map(async (suggestedProductId) => {
+            const suggestedProduct = await getProductById(suggestedProductId);
+            if (suggestedProduct)
+              return (
+                <div
+                  key={suggestedProduct.name}
+                  className={cn(
+                    "flex w-full  flex-col items-center justify-center gap-8 text-center",
+                    " lg:justify-center lg:gap-4   ",
+                  )}
+                >
+                  <picture>
+                    <source
+                      media="(min-width:1024px)"
+                      srcSet={suggestedProduct.image.desktop.slice(1)}
+                    />
+                    <source
+                      media="(min-width:640px)"
+                      srcSet={suggestedProduct.image.tablet.slice(1)}
+                    />
+                    <img
+                      src={suggestedProduct.image.mobile.slice(1)}
+                      alt={suggestedProduct.name}
+                      className="sm:w-full "
+                    />
+                  </picture>
+                  <div
+                    className={cn(
+                      "flex max-w-xs flex-col items-center justify-center gap-8",
+                      "sm:max-w-lg",
+                      "lg:w-1/2  lg:text-center",
+                    )}
+                  >
+                    {product.new && (
+                      <span className="text-overline text-primary">
+                        New product
+                      </span>
+                    )}
+                    <h5>{suggestedProduct.name}</h5>
+                    <Button asChild>
+                      <Link
+                        href={`${suggestedProduct.slug}`}
+                        className="uppercase"
+                      >
+                        See product
+                      </Link>
+                    </Button>
+                  </div>
+                </div>
+              );
+          })}
         </MaxWidthContainer>
       </section>
 

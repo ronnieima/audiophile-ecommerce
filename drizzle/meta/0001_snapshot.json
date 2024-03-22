@@ -1,6 +1,6 @@
 {
-  "id": "54d7dbfe-5b4e-4e28-abcf-976b8f5ab785",
-  "prevId": "00000000-0000-0000-0000-000000000000",
+  "id": "88308655-5126-4ee0-87f5-020e88d0294b",
+  "prevId": "54d7dbfe-5b4e-4e28-abcf-976b8f5ab785",
   "version": "5",
   "dialect": "pg",
   "tables": {
@@ -283,7 +283,7 @@
         },
         "others": {
           "name": "others",
-          "type": "json[]",
+          "type": "integer[]",
           "primaryKey": false,
           "notNull": false
         }

@@ -71,30 +71,36 @@ export const verificationTokens = pgTable(
 
 export const products = pgTable("product", {
   id: serial("id").notNull().unique().primaryKey(),
-  slug: text("slug"),
-  name: text("name"),
-  image: json("image").$type<{
-    mobile: string;
-    tablet: string;
-    desktop: string;
-  }>(),
+  slug: text("slug").notNull(),
+  name: text("name").notNull(),
+  image: json("image")
+    .$type<{
+      mobile: string;
+      tablet: string;
+      desktop: string;
+    }>()
+    .notNull(),
   category: text("category"),
-  categryImage: json("categryImage").$type<{
-    mobile: string;
-    tablet: string;
-    desktop: string;
-  }>(),
-  new: boolean("new"),
-  price: decimal("price"),
-  description: text("description"),
-  features: text("features"),
-  gallery: json("gallery").$type<{
-    first: { mobile: string; tablet: string; desktop: string };
-    second: { mobile: string; tablet: string; desktop: string };
-    third: { mobile: string; tablet: string; desktop: string };
-  }>(),
-  //TODO figure out others
-  others: text("others"),
+  categryImage: json("categryImage")
+    .$type<{
+      mobile: string;
+      tablet: string;
+      desktop: string;
+    }>()
+    .notNull(),
+  new: boolean("new").notNull(),
+  price: decimal("price").notNull(),
+  description: text("description").notNull(),
+  features: text("features").notNull(),
+  gallery: json("gallery")
+    .notNull()
+    .$type<{
+      first: { mobile: string; tablet: string; desktop: string };
+      second: { mobile: string; tablet: string; desktop: string };
+      third: { mobile: string; tablet: string; desktop: string };
+    }>()
+    .notNull(),
+  others: integer("others").array(),
 });
 
 export const includedItems = pgTable("includedItems", {
@@ -111,7 +117,11 @@ export const cartItem = pgTable("cartItem", {
     .$default(() => randomUUID())
     .primaryKey()
     .notNull(),
-  userId: text("userId").references(() => users.id),
-  productId: integer("productId").references(() => products.id),
-  quantity: integer("quantity"),
+  userId: text("userId")
+    .references(() => users.id)
+    .notNull(),
+  productId: integer("productId")
+    .references(() => products.id)
+    .notNull(),
+  quantity: integer("quantity").notNull(),
 });

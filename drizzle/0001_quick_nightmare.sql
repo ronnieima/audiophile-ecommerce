@@ -1,0 +1,1 @@
+ALTER TABLE "product" ALTER COLUMN "others" SET DATA TYPE integer[];

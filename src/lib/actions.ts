@@ -26,9 +26,15 @@ export async function getProducts(
   } else return products;
 }
 
-export async function getProduct(productName: string) {
+export async function getProductById(productId: number) {
   return await db.query.products.findFirst({
-    where: eq(products.slug, productName),
+    where: eq(products.id, productId),
+  });
+}
+
+export async function getProductBySlug(productSlug: string) {
+  return await db.query.products.findFirst({
+    where: eq(products.slug, productSlug),
   });
 }
 

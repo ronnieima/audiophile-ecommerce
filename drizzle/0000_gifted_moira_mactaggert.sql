@@ -15,9 +15,9 @@ CREATE TABLE IF NOT EXISTS "account" (
 --> statement-breakpoint
 CREATE TABLE IF NOT EXISTS "cartItem" (
 	"id" text PRIMARY KEY NOT NULL,
-	"userId" text,
-	"productId" integer,
-	"quantity" integer
+	"userId" text NOT NULL,
+	"productId" integer NOT NULL,
+	"quantity" integer NOT NULL
 );
 --> statement-breakpoint
 CREATE TABLE IF NOT EXISTS "includedItems" (
@@ -29,17 +29,17 @@ CREATE TABLE IF NOT EXISTS "includedItems" (
 --> statement-breakpoint
 CREATE TABLE IF NOT EXISTS "product" (
 	"id" serial PRIMARY KEY NOT NULL,
-	"slug" text,
-	"name" text,
-	"image" json,
+	"slug" text NOT NULL,
+	"name" text NOT NULL,
+	"image" json NOT NULL,
 	"category" text,
-	"categryImage" json,
-	"new" boolean,
-	"price" numeric,
-	"description" text,
-	"features" text,
-	"gallery" json,
-	"others" text,
+	"categryImage" json NOT NULL,
+	"new" boolean NOT NULL,
+	"price" numeric NOT NULL,
+	"description" text NOT NULL,
+	"features" text NOT NULL,
+	"gallery" json NOT NULL,
+	"others" json[],
 	CONSTRAINT "product_id_unique" UNIQUE("id")
 );
 --> statement-breakpoint
