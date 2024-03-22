@@ -21,12 +21,11 @@ export async function getProducts(
   category?: "headphones" | "speakers" | "earphones",
 ) {
   if (category) {
-    const data = await db
+    return await db
       .select()
       .from(products)
       .where(eq(products.category, category));
-    return data;
-  } else return products;
+  } else return await db.select().from(products);
 }
 
 export async function getProductById(productId: number) {

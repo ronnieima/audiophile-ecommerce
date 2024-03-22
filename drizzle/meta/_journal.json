@@ -15,6 +15,13 @@
       "when": 1711091166030,
       "tag": "0001_quick_nightmare",
       "breakpoints": true
+    },
+    {
+      "idx": 2,
+      "version": "5",
+      "when": 1711092973105,
+      "tag": "0002_fresh_menace",
+      "breakpoints": true
     }
   ]
 }

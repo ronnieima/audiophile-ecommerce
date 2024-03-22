@@ -81,7 +81,7 @@ export const products = pgTable("product", {
     }>()
     .notNull(),
   category: text("category"),
-  categryImage: json("categryImage")
+  categoryImage: json("categoryImage")
     .$type<{
       mobile: string;
       tablet: string;

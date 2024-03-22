@@ -25,14 +25,14 @@ export default async function Navbar() {
 
         <NavLinks className="hidden lg:flex" />
 
-        <div>
+        <div className="flex gap-2">
           {session ? (
             <SignOutButton />
           ) : (
-            <>
+            <div className="space-x-2">
               <SignInButton />
               <Link href={"/register"}>Register</Link>
-            </>
+            </div>
           )}
 
           <Cart />

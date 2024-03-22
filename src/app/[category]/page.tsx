@@ -1,11 +1,8 @@
 import CallToAction from "@/components/Home/CallToAction";
 import Categories from "@/components/Home/Categories";
 import ProductItem from "@/components/ui/ProductItem";
-import { Product } from "@/data";
-import { products } from "@/db/schema";
 import { getProducts } from "@/lib/actions";
 import { cn } from "@/lib/utils";
-import { InferSelectModel } from "drizzle-orm";
 import { notFound } from "next/navigation";
 
 type CategoryPageProps = {
@@ -34,7 +31,7 @@ export default async function CategoryPage({
         )}
       >
         {filteredProducts.map((product) => (
-          <ProductItem key={product.id} product={product} />
+          <ProductItem key={product.id} productId={product.id} />
         ))}
       </section>
       <Categories />
