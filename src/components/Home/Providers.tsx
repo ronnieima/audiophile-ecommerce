@@ -5,10 +5,5 @@ import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 
 export default function Providers({ children }: PropsWithChildren) {
-  return (
-    <SessionProvider>
-      <ToastContainer />
-      {children}
-    </SessionProvider>
-  );
+  return <SessionProvider>{children}</SessionProvider>;
 }

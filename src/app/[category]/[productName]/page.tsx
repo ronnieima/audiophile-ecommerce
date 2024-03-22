@@ -1,11 +1,8 @@
 import CallToAction from "@/components/Home/CallToAction";
 import Categories from "@/components/Home/Categories";
-import AddToCartButton from "@/components/ui/AddToCartButton";
-import Counter from "@/components/ui/Counter";
 import MaxWidthContainer from "@/components/ui/MaxWidthContainer";
 import { Button } from "@/components/ui/button";
 import {
-  addToCart,
   getIncludedItems,
   getProductById,
   getProductBySlug,

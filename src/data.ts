@@ -1,4 +1,7 @@
-export type Product = (typeof products)[0];
+import { products as productSchema } from "@/db/schema";
+import { InferSelectModel } from "drizzle-orm";
+
+export type Product = InferSelectModel<typeof productSchema>;
 
 export const products = [
   {

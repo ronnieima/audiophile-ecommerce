@@ -1,8 +1,10 @@
-import { deleteAllCartItems, getCart } from "@/lib/actions";
-import { ShoppingCart } from "lucide-react";
-import { useSession } from "next-auth/react";
-import { useEffect, useState } from "react";
+import { authOptions } from "@/app/api/auth/[...nextauth]/route";
+import { cartItem } from "@/db/schema";
+import { getCart, getProductById } from "@/lib/actions";
+import { InferSelectModel } from "drizzle-orm";
+import { getServerSession } from "next-auth";
 import { Button } from "./button";
+import CartIcon from "./CartIcon";
 import CartItem from "./CartItem";
 import Counter from "./Counter";
 import {
@@ -11,14 +13,7 @@ import {
   DialogContent,
   DialogHeader,
   DialogTitle,
-  DialogTrigger,
 } from "./dialog";
-import { InferSelectModel } from "drizzle-orm";
-import { cartItem } from "@/db/schema";
-import CartItems from "./CartItems";
-import CartIcon from "./CartIcon";
-import { getServerSession } from "next-auth";
-import { authOptions } from "@/app/api/auth/[...nextauth]/route";
 import RemoveAllButton from "./RemoveAllButton";
 
 type CartItemType = InferSelectModel<typeof cartItem>;
@@ -28,6 +23,7 @@ export default async function Cart() {
   const userId = session?.user?.id;
   if (!userId) return;
   const cart = await getCart(userId);
+
   return (
     <Dialog>
       <CartIcon />
@@ -36,17 +32,20 @@ export default async function Cart() {
           <DialogTitle className=" uppercase">Cart</DialogTitle>
           <RemoveAllButton />
         </DialogHeader>
-        {cart?.map((cartItem) => {
+        {cart?.map(async (cartItem) => {
+          const product = await getProductById(cartItem.productId);
+          if (!product) return;
           return (
-            <div key={cartItem.id} className="flex justify-between ">
-              <CartItem productId={cartItem.productId} />
-              <Counter quantity={cartItem.quantity} />
-            </div>
+            <CartItem
+              key={cartItem.id}
+              product={product}
+              defaultQuantity={cartItem.quantity}
+            />
           );
         })}
         <div className="flex justify-between">
           <p>Total</p>
-          <p className="font-bold">$ 5,3232</p>
+          <p className="font-bold">$ {1}</p>
         </div>
         <DialogClose>
           <Button className="w-full uppercase">Checkout</Button>
