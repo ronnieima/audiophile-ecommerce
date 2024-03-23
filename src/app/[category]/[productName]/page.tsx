@@ -28,7 +28,7 @@ export default async function ProductPage({
 
   return (
     <main className="flex flex-col items-stretch justify-center gap-32 ">
-      <section className=" ">
+      <section>
         <MaxWidthContainer className="justify-between gap-8 sm:flex-row lg:gap-16">
           <div className="">
             <Button asChild variant={"link"}>

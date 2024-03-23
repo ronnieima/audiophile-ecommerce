@@ -20,8 +20,8 @@ export default function CheckoutForm() {
   });
   return (
     <Form {...form}>
-      <form>
-        <h2>Checkout</h2>
+      <form className="py-4">
+        <h2 className="text-3xl">Checkout</h2>
         <div className="w-full space-y-8 py-8">
           {checkout.map((section) => (
             <div key={section.header} className="flex w-full flex-col gap-4">
@@ -53,12 +53,15 @@ export default function CheckoutForm() {
                 control={form.control}
                 name="paymentMethod"
                 render={({ field }) => (
-                  <FormItem className="flex w-full flex-col gap-4">
-                    <FormLabel>Payment Method</FormLabel>
+                  <FormItem className="flex w-full flex-col gap-4 sm:flex-row sm:justify-between">
+                    <FormLabel className="font-semibold">
+                      Payment Method
+                    </FormLabel>
                     <FormControl>
                       <RadioGroup
                         onValueChange={field.onChange}
                         defaultValue={field.value}
+                        className="w-1/2"
                       >
                         <FormItem className="flex h-12 items-center gap-2 space-y-0 rounded-lg border-2 border-gray px-4 [&:has([data-state=checked])]:border-primary">
                           <FormControl className="relative">
@@ -90,7 +93,7 @@ export default function CheckoutForm() {
               />
             </div>
             {paymentMethod === "eMoney" && (
-              <>
+              <div className="flex flex-col lg:flex-row">
                 <FormInput
                   control={form.control}
                   inputType="number"
@@ -107,7 +110,7 @@ export default function CheckoutForm() {
                   key="eMoneyPin"
                   placeholder="6891"
                 />
-              </>
+              </div>
             )}
           </div>
         </div>
