@@ -1,10 +1,4 @@
 "use client";
-import { checkout } from "@/config/content";
-import React from "react";
-import FormInput from "./FormInput";
-import { Label } from "@/components/ui/label";
-import RadioButton from "./RadioButton";
-import { useForm } from "react-hook-form";
 import {
   Form,
   FormControl,
@@ -12,12 +6,18 @@ import {
   FormItem,
   FormLabel,
 } from "@/components/ui/form";
-import { DevTool } from "@hookform/devtools";
-import { Button } from "@/components/ui/button";
 import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group";
+import { checkout } from "@/config/content";
+import { DevTool } from "@hookform/devtools";
+import { useForm, useWatch } from "react-hook-form";
+import FormInput from "./FormInput";
 
 export default function CheckoutForm() {
   const form = useForm();
+  const paymentMethod = useWatch({
+    control: form.control,
+    name: "paymentMethod",
+  });
   return (
     <Form {...form}>
       <form>
@@ -44,7 +44,7 @@ export default function CheckoutForm() {
             </div>
           ))}
           <div
-            key={"Payment Detail"}
+            key={"Payment Details"}
             className="flex w-full flex-col gap-4 px-2"
           >
             <h3 className="text-subtitle  text-primary">Payment Details</h3>
@@ -63,6 +63,7 @@ export default function CheckoutForm() {
                         <FormItem className="flex h-12 items-center gap-2 space-y-0 rounded-lg border-2 border-gray px-4 [&:has([data-state=checked])]:border-primary">
                           <FormControl className="relative">
                             <RadioGroupItem
+                              defaultChecked={true}
                               className="peer z-20"
                               value="eMoney"
                             />
@@ -86,12 +87,32 @@ export default function CheckoutForm() {
                     </FormControl>
                   </FormItem>
                 )}
-              ></FormField>
+              />
             </div>
+            {paymentMethod === "eMoney" && (
+              <>
+                <FormInput
+                  control={form.control}
+                  inputType="number"
+                  label="e-Money Number"
+                  value="eMoneyNumber"
+                  key="eMoneyNumber"
+                  placeholder="238521993"
+                />
+                <FormInput
+                  control={form.control}
+                  inputType="number"
+                  label="e-Money PIN"
+                  value="eMoneyPin"
+                  key="eMoneyPin"
+                  placeholder="6891"
+                />
+              </>
+            )}
           </div>
         </div>
       </form>
-      <DevTool control={form.control} />
+      {/* <DevTool control={form.control} /> */}
     </Form>
   );
 }
