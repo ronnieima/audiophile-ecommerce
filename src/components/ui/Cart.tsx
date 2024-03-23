@@ -4,6 +4,7 @@ import { getCart, getProductById } from "@/lib/actions";
 import { InferSelectModel } from "drizzle-orm";
 import { ShoppingCart } from "lucide-react";
 import { getServerSession } from "next-auth";
+import React, { Suspense } from "react";
 import { Button } from "./button";
 import CartIcon from "./CartIcon";
 import CartItem from "./CartItem";
@@ -28,6 +29,23 @@ async function calculateTotalPrice(cart: CartItemType[]) {
   return totalPrice;
 }
 
+async function renderCartItems(cart: CartItemType[]) {
+  const renderedItems: React.ReactNode[] = [];
+
+  await Promise.all(
+    cart.map(async (cartItem) => {
+      const product = await getProductById(cartItem.productId);
+      if (product) {
+        renderedItems.push(
+          <CartItem key={cartItem.id} product={product} cartItem={cartItem} />,
+        );
+      }
+    }),
+  );
+
+  return renderedItems;
+}
+
 export default async function Cart() {
   const session = await getServerSession(authOptions);
   const userId = session?.user?.id;
@@ -36,7 +54,7 @@ export default async function Cart() {
 
   const isEmptyCart = cart.length === 0;
   const cartSize = cart.length;
-  const totalPrice = calculateTotalPrice(cart);
+  const totalPrice = await calculateTotalPrice(cart);
   return (
     <Dialog>
       <DialogTrigger className="relative">
@@ -57,20 +75,12 @@ export default async function Cart() {
           </div>
         ) : (
           <>
-            {cart?.map(async (cartItem) => {
-              const product = await getProductById(cartItem.productId);
-              if (!product) return;
-              return (
-                <CartItem
-                  key={cartItem.id}
-                  product={product}
-                  cartItem={cartItem}
-                />
-              );
-            })}
+            {await renderCartItems(cart)}
             <div className="flex justify-between">
               <p>Total</p>
-              <p className="font-bold">$ {totalPrice}</p>
+              <Suspense fallback={"Calculating total price..."}>
+                <p className="font-bold">$ {totalPrice}</p>
+              </Suspense>
             </div>
             <DialogClose asChild>
               <Button className="w-full uppercase">Checkout</Button>

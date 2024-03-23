@@ -1,6 +1,7 @@
+"use client";
 import Image from "next/image";
 import Link from "next/link";
-import React from "react";
+import React, { Dispatch, SetStateAction } from "react";
 import { Button } from "./button";
 import ArrowRight from "./ArrowRight";
 
@@ -8,12 +9,14 @@ type CategoryItemProps = {
   imageUrl: string;
   title: string;
   href: string;
+  setShowModal?: Dispatch<SetStateAction<boolean>>;
 };
 
 export default function CategoryItem({
   imageUrl,
   title,
   href,
+  setShowModal,
 }: CategoryItemProps) {
   return (
     <div className="flex h-48  w-full flex-col items-center justify-center gap-2 rounded-lg bg-gray py-12 uppercase ">
@@ -28,11 +31,23 @@ export default function CategoryItem({
         />
       </div>
       <h6>{title}</h6>
-      <Button asChild variant={"link"}>
-        <Link href={href} className="text-subtitle flex gap-2 text-black">
-          Shop <ArrowRight />
-        </Link>
-      </Button>
+      {setShowModal ? (
+        <Button asChild variant={"link"}>
+          <Link
+            href={href}
+            className="text-subtitle flex gap-2 text-black"
+            onClick={() => setShowModal(false)!}
+          >
+            Shop <ArrowRight />
+          </Link>
+        </Button>
+      ) : (
+        <Button asChild variant={"link"}>
+          <Link href={href} className="text-subtitle flex gap-2 text-black">
+            Shop <ArrowRight />
+          </Link>
+        </Button>
+      )}
     </div>
   );
 }

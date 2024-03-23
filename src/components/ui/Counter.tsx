@@ -1,36 +1,48 @@
 "use client";
-import { Dispatch, SetStateAction, useEffect, useState } from "react";
+import { updateCartItemQuantity } from "@/lib/actions";
+import { Dispatch, SetStateAction, useState } from "react";
 import { Button } from "./button";
-import db from "@/db";
-import { cartItem } from "@/db/schema";
-import { getCartItemQuantity, updateCartItemQuantity } from "@/lib/actions";
 
 type Props = {
-  quantity: number;
-  setQuantity: Dispatch<SetStateAction<number>>;
+  initialQuantity: number;
   isInCart?: boolean;
   cartItemId?: string;
+  onQuantityChange?: (newQuantity: number) => void;
 };
 
 export default function Counter({
-  quantity,
-  setQuantity,
+  initialQuantity,
   isInCart = false,
   cartItemId,
+  onQuantityChange,
 }: Props) {
+  const [quantity, setQuantity] = useState(initialQuantity);
+
   const handleDecrement = async () => {
-    if (isInCart && cartItemId) {
-      await updateCartItemQuantity(cartItemId, "decrement");
-    } else {
-      if (quantity !== 1) setQuantity((prevCount) => prevCount - 1);
+    if (quantity !== 1) {
+      if (isInCart && cartItemId) {
+        setQuantity((prevQuantity) => prevQuantity - 1);
+        await updateCartItemQuantity(cartItemId, "decrement");
+      }
+      if (onQuantityChange)
+        setQuantity((prevQuantity) => {
+          const newQuantity = prevQuantity - 1;
+          onQuantityChange(newQuantity);
+          return newQuantity;
+        });
     }
   };
   const handleIncrement = async () => {
     if (isInCart && cartItemId) {
+      setQuantity((prevQuantity) => prevQuantity + 1);
       await updateCartItemQuantity(cartItemId, "increment");
-    } else {
-      setQuantity((prevCount) => prevCount + 1);
     }
+    if (onQuantityChange)
+      setQuantity((prevQuantity) => {
+        const newQuantity = prevQuantity + 1;
+        onQuantityChange(newQuantity);
+        return newQuantity;
+      });
   };
 
   return (

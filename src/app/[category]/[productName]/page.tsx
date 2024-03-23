@@ -11,6 +11,8 @@ import { cn } from "@/lib/utils";
 import Link from "next/link";
 import { notFound } from "next/navigation";
 import AddToCart from "./_components/AddToCart";
+import { getServerSession } from "next-auth";
+import { authOptions } from "@/app/api/auth/[...nextauth]/route";
 
 type ProductPageProps = {
   params: { productName: string };
@@ -19,6 +21,7 @@ type ProductPageProps = {
 export default async function ProductPage({
   params: { productName },
 }: ProductPageProps) {
+  const session = await getServerSession(authOptions);
   const product = await getProductBySlug(productName);
   if (!product) return notFound();
   const includedItems = await getIncludedItems(product.id);
@@ -53,7 +56,7 @@ export default async function ProductPage({
             <h2 className="max-w-xs">{product.name}</h2>
             <p className="max-w-sm">{product.description}</p>
             <h3>$ {product.price}</h3>
-            <AddToCart productId={product.id} />
+            <AddToCart productId={product.id} session={session!} />
           </div>
         </MaxWidthContainer>
       </section>

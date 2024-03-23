@@ -3,20 +3,28 @@
 import { Button } from "@/components/ui/button";
 import Counter from "@/components/ui/Counter";
 import { addToCart } from "@/lib/actions";
-import { useSession } from "next-auth/react";
+import { Session } from "next-auth";
 import { useState } from "react";
 import { toast } from "react-toastify";
 
-export default function AddToCart({ productId }: { productId: number }) {
-  const session = useSession();
-  const isAuthed = session.status === "authenticated";
-  const userId = session.data?.user.id;
+type Props = { productId: number; session: Session };
+
+export default function AddToCart({ productId, session }: Props) {
+  const isAuthed = !!session;
+  const userId = session?.user.id;
   const [quantity, setQuantity] = useState<number>(1);
+
+  const handleQuantityChange = (newQuantity: number) => {
+    setQuantity(newQuantity);
+  };
 
   return (
     <div className="flex flex-col gap-4">
       <div className="flex gap-4">
-        <Counter quantity={quantity} setQuantity={setQuantity} />
+        <Counter
+          initialQuantity={quantity}
+          onQuantityChange={handleQuantityChange}
+        />
         <Button
           disabled={!isAuthed}
           onClick={() => {
