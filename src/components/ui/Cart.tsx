@@ -17,6 +17,7 @@ import {
   DialogTrigger,
 } from "./dialog";
 import RemoveAllButton from "./RemoveAllButton";
+import Link from "next/link";
 
 type CartItemType = InferSelectModel<typeof cartItem>;
 
@@ -83,7 +84,9 @@ export default async function Cart() {
               </Suspense>
             </div>
             <DialogClose asChild>
-              <Button className="w-full uppercase">Checkout</Button>
+              <Button className="w-full uppercase" asChild>
+                <Link href={"/checkout"}>Checkout</Link>
+              </Button>
             </DialogClose>
           </>
         )}
