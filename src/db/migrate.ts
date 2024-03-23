@@ -1,8 +1,7 @@
 import { drizzle } from "drizzle-orm/neon-http";
 import { NeonQueryFunction, neon } from "@neondatabase/serverless";
 import { migrate } from "drizzle-orm/neon-http/migrator";
-import { config } from "dotenv";
-config({ path: ".env.local" });
+
 const sql: NeonQueryFunction<boolean, boolean> = neon(
   process.env.DATABASE_URL!,
 );
