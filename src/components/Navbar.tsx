@@ -6,7 +6,7 @@ import MobileMenu from "./ui/MobileMenu";
 import NavLinks from "./ui/NavLinks";
 import SignInButton from "./ui/SignInButton";
 import { getServerSession } from "next-auth";
-import { authOptions } from "@/app/api/auth/[...nextauth]/route";
+import { authOptions } from "@/app/api/auth/[...nextauth]/authOptions";
 import SignOutButton from "./ui/SignOutButton";
 import AccountMenu from "./ui/AccountMenu";
 import { Button } from "./ui/button";

@@ -1,4 +1,4 @@
-import { authOptions } from "@/app/api/auth/[...nextauth]/route";
+import { authOptions } from "@/app/api/auth/[...nextauth]/authOptions";
 import { cartItem } from "@/db/schema";
 import { getCart, getProductById } from "@/lib/actions";
 import { InferSelectModel } from "drizzle-orm";
