@@ -56,6 +56,24 @@ export async function getCart(userId: string) {
   }
 }
 
+export async function getCartProducts(userId: string) {
+  try {
+    const cart = await getCart(userId);
+    const cartProducts = [];
+    for (const currCartItem of cart) {
+      const product = await getProductById(currCartItem.productId);
+      const quantity = await db.query.cartItem.findFirst({
+        where: eq(cartItem.userId, userId),
+        columns: { quantity: true },
+      });
+      cartProducts.push({ product, quantity });
+    }
+    return cartProducts;
+  } catch (error) {
+    throw error;
+  }
+}
+
 export async function getProducts(
   category?: "headphones" | "speakers" | "earphones",
 ) {
