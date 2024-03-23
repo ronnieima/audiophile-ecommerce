@@ -2,8 +2,6 @@ import CallToAction from "@/components/Home/CallToAction";
 import Categories from "@/components/Home/Categories";
 import Hero from "@/components/Home/Hero";
 import Products from "@/components/Home/Products";
-import { getServerSession } from "next-auth";
-import { authOptions } from "./api/auth/[...nextauth]/authOptions";
 
 export default async function HomePage() {
   return (
