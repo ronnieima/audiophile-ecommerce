@@ -60,13 +60,12 @@ export default function CheckoutSection() {
                     <FormControl>
                       <RadioGroup
                         onValueChange={field.onChange}
-                        defaultValue={field.value}
-                        className="w-1/2"
+                        defaultValue={"eMoney"}
+                        className="sm:w-1/2"
                       >
                         <FormItem className="flex h-12 items-center gap-2 space-y-0 rounded-lg border-2 border-gray px-4 [&:has([data-state=checked])]:border-primary">
                           <FormControl className="relative">
                             <RadioGroupItem
-                              defaultChecked={true}
                               className="peer z-20"
                               value="eMoney"
                             />
@@ -75,14 +74,14 @@ export default function CheckoutSection() {
                             e-Money
                           </FormLabel>
                         </FormItem>
-                        <FormItem className="flex h-12 items-center gap-2 space-y-0 rounded-lg border-2 border-gray px-4 [&:has([data-state=checked])]:border-primary">
+                        <FormItem className="flex  h-12 items-center gap-2 space-y-0 rounded-lg border-2 border-gray px-4 [&:has([data-state=checked])]:border-primary">
                           <FormControl>
                             <RadioGroupItem
                               className="peer "
                               value="cashOnDelivery"
                             />
                           </FormControl>
-                          <FormLabel className="font-semibold">
+                          <FormLabel className=" font-semibold">
                             Cash on Delivery
                           </FormLabel>
                         </FormItem>
@@ -93,7 +92,7 @@ export default function CheckoutSection() {
               />
             </div>
             {paymentMethod === "eMoney" && (
-              <div className="flex flex-col lg:flex-row">
+              <div className="flex w-full flex-col items-stretch lg:flex-row">
                 <FormInput
                   control={control}
                   inputType="number"

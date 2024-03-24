@@ -8,10 +8,9 @@ import CheckoutForm from "./_components/CheckoutForm";
 
 export default async function CheckoutPage() {
   const session = await getServerSession(authOptions);
-  if (!session) redirect("/");
-
   const userId = session?.user.id;
-  const cart = await getCartProducts(userId);
+  const cart = await getCartProducts(userId!);
+  if (!session || !cart) redirect("/");
 
   const price = cart.reduce(
     (acc, cartItem) =>
@@ -20,9 +19,9 @@ export default async function CheckoutPage() {
   );
   return (
     <main className="bg-gray ">
-      <MaxWidthContainer className="py-24">
+      <MaxWidthContainer className="py-8">
         <BackButton className="self-start py-2" />
-        <CheckoutForm userId={userId} cart={cart} price={price} />
+        <CheckoutForm userId={userId!} cart={cart} price={price} />
       </MaxWidthContainer>
     </main>
   );
