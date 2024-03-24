@@ -1,20 +1,21 @@
 "use server";
 
+import { RegisterFormSchemaType } from "@/app/register/_component/RegisterForm";
 import db from "@/db";
 import { cartItem, includedItems, products, users } from "@/db/schema";
 import bcrypt from "bcrypt";
 import { eq } from "drizzle-orm";
 import { revalidatePath } from "next/cache";
 
-export async function registerUser(formData: FormData) {
-  const username = formData.get("username") as string;
-  const password = formData.get("password") as string;
-
+export async function registerUser({
+  username,
+  password,
+}: RegisterFormSchemaType) {
   try {
     const hashedPassword = await bcrypt.hash(password, 5);
     await db.insert(users).values({ username, hashedPassword });
   } catch (error: any) {
-    if (error.code === "23505") console.log("duplicate found");
+    if (error.code === "23505") throw new Error(error);
   }
 }
 

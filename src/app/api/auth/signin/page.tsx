@@ -31,9 +31,9 @@ export default async function SignInPage() {
           </CardContent>
           <CardFooter className="flex flex-col gap-16">
             <div className="flex gap-2">
-              <p>Are you new?</p>
+              <p>Don&apos;t have an account yet? </p>
               <Link href={"/register"} className="text-primary underline">
-                Create an account
+                Create one here.
               </Link>
             </div>
           </CardFooter>

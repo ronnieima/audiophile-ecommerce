@@ -23,7 +23,7 @@ export default function LogInToDemo() {
         }
       }}
     >
-      Log in to the demo account
+      Click here to log in to the demo account
     </Button>
   );
 }

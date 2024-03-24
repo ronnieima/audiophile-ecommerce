@@ -1,46 +1,102 @@
 "use client";
-import { signIn } from "next-auth/react";
-import React from "react";
-import { Label } from "@/components/ui/label";
-import { Input } from "@/components/ui/input";
-import { useRouter } from "next/navigation";
 import { Button } from "@/components/ui/button";
-import Link from "next/link";
+import {
+  Form,
+  FormControl,
+  FormField,
+  FormItem,
+  FormLabel,
+  FormMessage,
+} from "@/components/ui/form";
+import { Input } from "@/components/ui/input";
+import { zodResolver } from "@hookform/resolvers/zod";
+import { signIn } from "next-auth/react";
+import { useRouter } from "next/navigation";
+import { useForm } from "react-hook-form";
+import { toast } from "react-toastify";
+import { z } from "zod";
+
+const loginFormSchema = z
+  .object({
+    username: z.string().min(1, "Required"),
+    password: z.string().min(1, "Required"),
+  })
+  .required();
+
+export type LoginFormSchemaType = z.infer<typeof loginFormSchema>;
 
 export default function LoginForm() {
+  const form = useForm<LoginFormSchemaType>({
+    resolver: zodResolver(loginFormSchema),
+    defaultValues: { username: "", password: "" },
+  });
+  const { control, handleSubmit } = form;
   const router = useRouter();
-  async function handleSubmit(e: React.FormEvent<HTMLFormElement>) {
-    e.preventDefault();
-    const formData = new FormData(e.currentTarget);
-    const response = await signIn("credentials", {
-      username: formData.get("username"),
-      password: formData.get("password"),
-      redirect: false,
-    });
-    if (!response?.error) {
-      router.push("/");
-      router.refresh();
+  async function onSubmit(values: LoginFormSchemaType) {
+    try {
+      const res = await signIn("credentials", {
+        username: values.username,
+        password: values.password,
+        redirect: false,
+      });
+      console.log(res);
+      if (!res?.error) {
+        router.push("/");
+        router.refresh();
+      } else throw res.error;
+    } catch (error) {
+      toast(`Failed to login`, { type: "error" });
+
+      throw error;
     }
   }
   return (
-    <form
-      className="flex w-full flex-col items-end gap-8"
-      onSubmit={(e) => handleSubmit(e)}
-    >
-      <div className="w-full">
-        <Label htmlFor="username">Username</Label>
-        <Input type="text" id="username" name="username" />
-      </div>
-      <div className="flex w-full flex-col gap-1">
-        <Label htmlFor="password">Password</Label>
-        <Input type="password" id="password" name="password" />
-        <Button variant={"link"} asChild>
-          <Link href={"#"} className="m-0 h-auto w-auto self-end p-0 underline">
-            Forgot password?
-          </Link>
-        </Button>
-      </div>
-      <Button type="submit">Sign in</Button>
-    </form>
+    <Form {...form}>
+      <form
+        className="flex w-full flex-col items-end gap-8"
+        onSubmit={handleSubmit(onSubmit)}
+      >
+        <FormField
+          control={control}
+          name="username"
+          render={({ field }) => (
+            <FormItem className="w-full">
+              <FormLabel className="flex justify-between">
+                <span>Username</span>
+                <FormMessage />
+              </FormLabel>
+              <FormControl>
+                <Input
+                  type="text"
+                  placeholder="Enter your username"
+                  className=""
+                  {...field}
+                />
+              </FormControl>
+            </FormItem>
+          )}
+        />
+        <FormField
+          control={control}
+          name="password"
+          render={({ field }) => (
+            <FormItem className="w-full">
+              <FormLabel className="flex justify-between">
+                <span>Password</span>
+                <FormMessage />
+              </FormLabel>
+              <FormControl>
+                <Input
+                  type="password"
+                  placeholder="Enter your password"
+                  {...field}
+                />
+              </FormControl>
+            </FormItem>
+          )}
+        />
+        <Button type="submit">Login</Button>
+      </form>
+    </Form>
   );
 }

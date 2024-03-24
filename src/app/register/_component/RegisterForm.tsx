@@ -1,43 +1,117 @@
 "use client";
-import { signIn } from "next-auth/react";
-import React from "react";
-import { Label } from "@/components/ui/label";
-import { Input } from "@/components/ui/input";
-import { useRouter } from "next/navigation";
 import { Button } from "@/components/ui/button";
-import Link from "next/link";
+import {
+  Form,
+  FormControl,
+  FormDescription,
+  FormField,
+  FormItem,
+  FormLabel,
+  FormMessage,
+} from "@/components/ui/form";
+import { Input } from "@/components/ui/input";
 import { registerUser } from "@/lib/actions";
+import { zodResolver } from "@hookform/resolvers/zod";
+import { signIn } from "next-auth/react";
+import { useRouter } from "next/navigation";
+import { useForm } from "react-hook-form";
+import { toast } from "react-toastify";
+import { z } from "zod";
+
+const registerFormSchema = z
+  .object({
+    username: z
+      .string()
+      .min(2, "Must contain at least 2 characters")
+      .max(20, "Exceeds max of 20 characters"),
+    password: z
+      .string()
+      .min(2, "Must contain at least 2 characters")
+      .max(20, "Exceeds max of 20 characters"),
+  })
+  .required();
+
+export type RegisterFormSchemaType = z.infer<typeof registerFormSchema>;
 
 export default function RegisterForm() {
+  const form = useForm<RegisterFormSchemaType>({
+    resolver: zodResolver(registerFormSchema),
+    defaultValues: { username: "", password: "" },
+  });
+  const { control, handleSubmit } = form;
   const router = useRouter();
-  async function handleSubmit(e: React.FormEvent<HTMLFormElement>) {
-    e.preventDefault();
-    const formData = new FormData(e.currentTarget);
+  async function onSubmit(values: RegisterFormSchemaType) {
     try {
-      const response = await registerUser(formData);
+      await registerUser(values);
+      toast("Successfully registered.", { type: "success" });
+      const res = await signIn("credentials", {
+        username: values.username,
+        password: values.password,
+        redirect: false,
+      });
+      if (!res?.error) {
+        router.push("/");
+        router.refresh();
+      }
     } catch (error) {
+      toast("Failed to register.", { type: "error" });
+
       throw error;
     }
   }
   return (
-    <form
-      className="flex w-full flex-col items-end gap-8"
-      onSubmit={(e) => handleSubmit(e)}
-    >
-      <div className="w-full">
-        <Label htmlFor="username">Username</Label>
-        <Input type="text" id="username" name="username" />
-      </div>
-      <div className="flex w-full flex-col gap-1">
-        <Label htmlFor="password">Password</Label>
-        <Input type="password" id="password" name="password" />
-        <Button variant={"link"} asChild>
-          <Link href={"#"} className="m-0 h-auto w-auto self-end p-0 underline">
-            Forgot password?
-          </Link>
-        </Button>
-      </div>
-      <Button type="submit">Sign in</Button>
-    </form>
+    <Form {...form}>
+      <form
+        className="flex w-full flex-col items-end gap-8"
+        onSubmit={handleSubmit(onSubmit)}
+      >
+        <FormField
+          control={control}
+          name="username"
+          render={({ field }) => (
+            <FormItem className="w-full">
+              <FormLabel className="flex justify-between">
+                <span>Username</span>
+                <FormMessage />
+              </FormLabel>
+              <FormControl>
+                <Input
+                  type="text"
+                  placeholder="Enter your username"
+                  className=""
+                  {...field}
+                />
+              </FormControl>
+              <FormDescription>
+                Must be between 2-20 characters.
+              </FormDescription>
+            </FormItem>
+          )}
+        />
+        <FormField
+          control={control}
+          name="password"
+          render={({ field }) => (
+            <FormItem className="w-full">
+              <FormLabel className="flex justify-between">
+                <span>Password</span>
+                <FormMessage />
+              </FormLabel>
+              <FormControl>
+                <Input
+                  type="password"
+                  placeholder="Enter your password"
+                  {...field}
+                />
+              </FormControl>
+              <FormDescription>
+                Must be between 2-20 characters.
+              </FormDescription>
+            </FormItem>
+          )}
+        />
+        <Button type="submit">Register</Button>
+      </form>
+    </Form>
   );
 }
