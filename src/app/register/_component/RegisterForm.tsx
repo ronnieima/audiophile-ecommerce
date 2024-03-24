@@ -55,8 +55,6 @@ export default function RegisterForm() {
       }
     } catch (error) {
       toast("Failed to register.", { type: "error" });
-
-      throw error;
     }
   }
   return (
