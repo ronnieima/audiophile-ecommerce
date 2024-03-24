@@ -6,20 +6,17 @@ import { Input } from "@/components/ui/input";
 import { useRouter } from "next/navigation";
 import { Button } from "@/components/ui/button";
 import Link from "next/link";
+import { registerUser } from "@/lib/actions";
 
-export default function LoginForm() {
+export default function RegisterForm() {
   const router = useRouter();
   async function handleSubmit(e: React.FormEvent<HTMLFormElement>) {
     e.preventDefault();
     const formData = new FormData(e.currentTarget);
-    const response = await signIn("credentials", {
-      username: formData.get("username"),
-      password: formData.get("password"),
-      redirect: false,
-    });
-    if (!response?.error) {
-      router.push("/");
-      router.refresh();
+    try {
+      const response = await registerUser(formData);
+    } catch (error) {
+      throw error;
     }
   }
   return (
