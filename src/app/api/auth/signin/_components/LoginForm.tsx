@@ -39,7 +39,6 @@ export default function LoginForm() {
         password: values.password,
         redirect: false,
       });
-      console.log(res);
       if (!res?.error) {
         router.push("/");
         router.refresh();

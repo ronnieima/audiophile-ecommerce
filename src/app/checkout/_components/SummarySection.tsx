@@ -1,28 +1,23 @@
+"use client";
 import { Button } from "@/components/ui/button";
 import MaxWidthContainer from "@/components/ui/MaxWidthContainer";
-import { getCartProducts } from "@/lib/actions";
 import Image from "next/image";
+import { Cart } from "./CheckoutForm";
 
 const SHIPPING_FEE = 50;
 const INCLUDED_VAT = 1079;
-type Props = { userId: string };
+type Props = { userId: string; cart: Cart; price: number };
 
-export default async function SummarySection({ userId }: Props) {
-  const cart = await getCartProducts(userId);
-  const price = cart.reduce(
-    (acc, cartItem) =>
-      acc + parseInt(cartItem.product?.price!) * cartItem.quantity!.quantity!,
-    0,
-  );
+export default function SummarySection({ userId, cart, price }: Props) {
   return (
     <section className="w-full rounded-lg bg-white  lg:w-1/2">
       <MaxWidthContainer className="w-full items-start py-8">
         <h5>Summary</h5>
 
         <div className="flex w-full flex-col gap-4 py-8">
-          {cart.map((cartItem) => (
+          {cart?.map((cartItem) => (
             <div
-              key={cartItem?.product!.id}
+              key={cartItem?.product?.id}
               className="flex w-full items-center justify-between"
             >
               <div className="flex items-center gap-4">
@@ -30,8 +25,8 @@ export default async function SummarySection({ userId }: Props) {
                   <Image
                     fill
                     className="absolute  h-full w-full rounded-lg"
-                    src={cartItem.product!.image.mobile.slice(1)}
-                    alt={cartItem.product!.name}
+                    src={cartItem?.product?.image.mobile.slice(1)!}
+                    alt={cartItem?.product?.name!}
                   />
                 </div>
                 <div>
@@ -41,14 +36,14 @@ export default async function SummarySection({ userId }: Props) {
                   <p>$ {cartItem?.product!.price}</p>
                 </div>
               </div>
-              <p>x{cartItem.quantity?.quantity}</p>
+              <p>x{cartItem.quantity}</p>
             </div>
           ))}
         </div>
         <div className="flex w-full flex-col gap-4 py-4">
           <div className="flex w-full justify-between">
             <h6 className="font-normal uppercase">Total</h6>
-            <p className="text-lg font-bold">$ 5,396</p>
+            <p className="text-lg font-bold">$ {price}</p>
           </div>
           <div className="flex w-full justify-between">
             <h6 className="font-normal uppercase">Shipping</h6>
@@ -66,7 +61,9 @@ export default async function SummarySection({ userId }: Props) {
           </div>
         </div>
 
-        <Button className="w-full uppercase">Continue & Pay</Button>
+        <Button type="submit" className="w-full uppercase">
+          Continue & Pay
+        </Button>
       </MaxWidthContainer>
     </section>
   );

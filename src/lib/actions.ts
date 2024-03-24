@@ -63,12 +63,13 @@ export async function getCartProducts(userId: string) {
     const cartProducts = [];
     for (const currCartItem of cart) {
       const product = await getProductById(currCartItem.productId);
-      const quantity = await db.query.cartItem.findFirst({
+      const quantityResponse = await db.query.cartItem.findFirst({
         where:
           eq(cartItem.userId, userId) &&
           eq(cartItem.productId, currCartItem.productId),
         columns: { quantity: true },
       });
+      const quantity = quantityResponse?.quantity || 1;
       cartProducts.push({ product, quantity });
     }
     return cartProducts;

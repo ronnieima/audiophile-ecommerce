@@ -12,7 +12,7 @@ import React from "react";
 import { Control, FieldValues } from "react-hook-form";
 
 export type FormInputProps = {
-  control?: Control<FieldValues, any>;
+  control: Control<FieldValues, any>;
   label: string;
   value: string;
   inputType: React.HTMLInputTypeAttribute | undefined;
@@ -34,7 +34,7 @@ export default function FormInput({
       name={value}
       render={({ field }) => (
         <FormItem className={cn(className, "w-full space-y-2 p-2")}>
-          <FormLabel asChild className="flex items-center justify-between">
+          <FormLabel className="flex items-center justify-between">
             <>
               <p className="font-semibold">{label}</p>
               <FormMessage />
