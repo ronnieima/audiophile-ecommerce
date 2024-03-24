@@ -1,14 +1,14 @@
-import { Product } from "@/data";
-import React from "react";
-import { Button } from "./button";
-import Link from "next/link";
 import { cn } from "@/lib/utils";
+import Link from "next/link";
+import { Button } from "./button";
+import { getProductById } from "@/lib/actions";
+import { notFound } from "next/navigation";
 
-export type ProductItemProps = {
-  product: Product;
-};
+type Props = { productId: number };
 
-export default function ProductItem({ product }: ProductItemProps) {
+export default async function ProductItem({ productId }: Props) {
+  const product = await getProductById(productId);
+  if (!product) return notFound();
   return (
     <div
       className={cn(
@@ -23,7 +23,7 @@ export default function ProductItem({ product }: ProductItemProps) {
         />
         <source
           media="(min-width:640px)"
-          srcSet={product.categoryImage.tablet.slice(1)}
+          srcSet={product.categoryImage?.tablet.slice(1)}
         />
         <img src={product.image.mobile.slice(1)} alt={product.name} />
       </picture>

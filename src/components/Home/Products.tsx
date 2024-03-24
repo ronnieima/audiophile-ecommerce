@@ -3,6 +3,7 @@ import React from "react";
 import { Button } from "../ui/button";
 import { cn } from "@/lib/utils";
 import MaxWidthContainer from "../ui/MaxWidthContainer";
+import Link from "next/link";
 
 export default function Products() {
   return (
@@ -17,7 +18,7 @@ export default function Products() {
         <div
           style={{ background: "primary" }}
           className={cn(
-            "relative -z-50 flex  w-full flex-col items-center justify-center gap-8 rounded-lg bg-primary p-8  text-white",
+            "relative flex  w-full flex-col items-center justify-center gap-8 rounded-lg bg-primary p-8  text-white",
             "lg:h-[48rem] lg:flex-row lg:items-center lg:gap-32 lg:overflow-y-clip lg:p-0 lg:px-16",
           )}
         >
@@ -25,10 +26,10 @@ export default function Products() {
             src={"/assets/home/desktop/pattern-circles.svg"}
             width={0}
             height={0}
-            className=" absolute top-0 -z-10  w-full"
+            className=" absolute top-0 z-10  w-full"
             alt=""
           />
-          <picture className=" flex h-full w-full items-center justify-center lg:w-1/2 lg:translate-y-4 lg:items-end">
+          <picture className=" z-20 flex h-full w-full items-center justify-center lg:w-1/2 lg:translate-y-4 lg:items-end">
             <source
               media="(min-width:1024px)"
               srcSet={"/assets/home/desktop/image-speaker-zx9.png"}
@@ -56,10 +57,11 @@ export default function Products() {
               truly remarkable sound.
             </p>
             <Button
-              className="border-none bg-black text-white hover:bg-white hover:text-black"
+              asChild
+              className="z-30 border-none bg-black text-white hover:bg-white hover:text-black"
               variant={"secondary"}
             >
-              See product
+              <Link href={"/speaker/zx9-speaker"}>See product</Link>
             </Button>
           </div>
         </div>
@@ -71,7 +73,9 @@ export default function Products() {
           )}
         >
           <h3 className="text-left">ZX7 Speaker</h3>
-          <Button variant={"secondary"}>See product</Button>
+          <Button variant={"secondary"} asChild>
+            <Link href={"/speaker/zx7-speaker"}>See product</Link>
+          </Button>
         </div>
 
         <div className="flex  flex-col items-center justify-center gap-8 sm:flex-row">
@@ -84,7 +88,9 @@ export default function Products() {
           ></div>
           <div className="flex h-[24rem] w-full flex-col items-start justify-center gap-8 rounded-lg bg-gray p-8 py-12">
             <h3 className="text-left">YX1 Earphones</h3>
-            <Button variant={"secondary"}>See product</Button>
+            <Button variant={"secondary"} asChild>
+              <Link href={"/earphones/yx1-earphones"}>See product</Link>
+            </Button>
           </div>
         </div>
       </MaxWidthContainer>

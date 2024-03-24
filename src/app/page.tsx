@@ -3,7 +3,7 @@ import Categories from "@/components/Home/Categories";
 import Hero from "@/components/Home/Hero";
 import Products from "@/components/Home/Products";
 
-export default function HomePage() {
+export default async function HomePage() {
   return (
     <main className="flex flex-col items-stretch justify-center gap-32 ">
       <Hero />

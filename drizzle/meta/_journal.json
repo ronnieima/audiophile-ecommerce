@@ -1,0 +1,27 @@
+{
+  "version": "5",
+  "dialect": "pg",
+  "entries": [
+    {
+      "idx": 0,
+      "version": "5",
+      "when": 1711090482224,
+      "tag": "0000_gifted_moira_mactaggert",
+      "breakpoints": true
+    },
+    {
+      "idx": 1,
+      "version": "5",
+      "when": 1711091166030,
+      "tag": "0001_quick_nightmare",
+      "breakpoints": true
+    },
+    {
+      "idx": 2,
+      "version": "5",
+      "when": 1711092973105,
+      "tag": "0002_fresh_menace",
+      "breakpoints": true
+    }
+  ]
+}

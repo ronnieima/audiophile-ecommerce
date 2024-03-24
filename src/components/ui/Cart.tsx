@@ -1,5 +1,13 @@
-"use client";
-import { useEffect, useState } from "react";
+import { authOptions } from "@/app/api/auth/[...nextauth]/authOptions";
+import { cartItem } from "@/db/schema";
+import { getCart, getProductById } from "@/lib/actions";
+import { InferSelectModel } from "drizzle-orm";
+import { ShoppingCart } from "lucide-react";
+import { getServerSession } from "next-auth";
+import React, { Suspense } from "react";
+import { Button } from "./button";
+import CartIcon from "./CartIcon";
+import CartItem from "./CartItem";
 import {
   Dialog,
   DialogClose,
@@ -8,67 +16,80 @@ import {
   DialogTitle,
   DialogTrigger,
 } from "./dialog";
-import { ShoppingCart } from "lucide-react";
-import { getProducts } from "@/lib/actions";
-import { Product } from "@/data";
-import Image from "next/image";
-import Counter from "./Counter";
-import { Button } from "./button";
+import RemoveAllButton from "./RemoveAllButton";
+import Link from "next/link";
 
-export default function Cart() {
-  const [showCart, setShowCart] = useState(false);
-  const [headphones, setHeadphones] = useState<Product[]>();
-  useEffect(() => {
-    async function getHeadphones() {
-      const headphones = await getProducts("headphones");
-      setHeadphones(headphones);
-    }
-    getHeadphones();
-  }, []);
+type CartItemType = InferSelectModel<typeof cartItem>;
 
-  console.log(headphones);
+async function calculateTotalPrice(cart: CartItemType[]) {
+  let totalPrice = 0;
+  for (const item of cart) {
+    const product = await getProductById(item.productId);
+    totalPrice += parseFloat(product!.price) * item.quantity;
+  }
+  return totalPrice;
+}
+
+async function renderCartItems(cart: CartItemType[]) {
+  const renderedItems: React.ReactNode[] = [];
+
+  await Promise.all(
+    cart.map(async (cartItem) => {
+      const product = await getProductById(cartItem.productId);
+      if (product) {
+        renderedItems.push(
+          <CartItem key={cartItem.id} product={product} cartItem={cartItem} />,
+        );
+      }
+    }),
+  );
+
+  return renderedItems;
+}
+
+export default async function Cart() {
+  const session = await getServerSession(authOptions);
+  const userId = session?.user?.id;
+  if (!userId) return;
+  const cart = await getCart(userId);
+
+  const isEmptyCart = cart.length === 0;
+  const cartSize = cart.length;
+  const totalPrice = await calculateTotalPrice(cart);
   return (
     <Dialog>
-      <DialogTrigger>
-        <ShoppingCart />
+      <DialogTrigger className="relative">
+        <CartIcon cartSize={cartSize} />
       </DialogTrigger>
       <DialogContent className="overflow-auto">
         <DialogHeader className="flex-row items-center justify-between">
           <DialogTitle className=" uppercase">Cart</DialogTitle>
-          <Button variant={"link"} className="mx-0 h-auto w-auto px-0">
-            Remove all
-          </Button>
+          <RemoveAllButton />
         </DialogHeader>
-        {headphones?.map((headphone) => {
-          return (
-            <div key={headphone.name} className="flex justify-between ">
-              <div className="flex gap-4">
-                <div className="relative aspect-square h-16 w-16">
-                  <Image
-                    fill
-                    className="absolute  h-full w-full"
-                    src={headphone.image.mobile.slice(1)}
-                    alt={headphone.name}
-                  />
-                </div>
-                <div className="flex flex-col items-start text-xs">
-                  <p className=" text-left font-bold">
-                    {headphone.name.replace("Headphones", "")}
-                  </p>
-                  <p>${headphone.price}</p>
-                </div>
-              </div>
-              <Counter />
+        {isEmptyCart ? (
+          <div className="flex flex-col items-center justify-center gap-8 py-8 text-center">
+            <ShoppingCart size={80} />
+            <h3>Cart is empty</h3>
+            <DialogClose asChild>
+              <Button>Start shopping</Button>
+            </DialogClose>
+          </div>
+        ) : (
+          <>
+            {await renderCartItems(cart)}
+            <div className="flex justify-between">
+              <p>Total</p>
+              <Suspense fallback={"Calculating total price..."}>
+                <p className="font-bold">$ {totalPrice}</p>
+              </Suspense>
             </div>
-          );
-        })}
-        <div className="flex justify-between">
-          <p>Total</p>
-          <p className="font-bold">$ 5,3232</p>
-        </div>
-        <DialogClose>
-          <Button className="w-full uppercase">Checkout</Button>
-        </DialogClose>
+            <DialogClose asChild>
+              <Button className="w-full uppercase" asChild>
+                <Link href={"/checkout"}>Checkout</Link>
+              </Button>
+            </DialogClose>
+          </>
+        )}
       </DialogContent>
     </Dialog>
   );

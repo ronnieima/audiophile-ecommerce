@@ -12,10 +12,10 @@ type CategoryPageProps = {
 export default async function CategoryPage({
   params: { category },
 }: CategoryPageProps) {
-  const products = await getProducts(category);
-  if (products.length === 0) return notFound();
+  const filteredProducts = await getProducts(category);
+  if (!filteredProducts) return notFound();
   return (
-    <main>
+    <main className="flex flex-col items-stretch justify-center gap-32 ">
       <header
         className={cn(
           "flex h-32 items-center justify-center bg-black text-center uppercase text-white",
@@ -27,11 +27,11 @@ export default async function CategoryPage({
       <section
         className={cn(
           "space-y-16 px-4 py-16",
-          "sm:space-y-24 sm:px-8 sm:py-24",
+          "sm:space-y-48 sm:px-8 sm:py-24",
         )}
       >
-        {products.map((product) => (
-          <ProductItem key={product.id} product={product} />
+        {filteredProducts.map((product) => (
+          <ProductItem key={product.id} productId={product.id} />
         ))}
       </section>
       <Categories />

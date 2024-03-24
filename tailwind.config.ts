@@ -19,6 +19,9 @@ const config = {
     },
     fontFamily: { manrope: "Manrope" },
     extend: {
+      aria: {
+        invalid: 'invalid="true"',
+      },
       backgroundImage: {
         hero: "url('/assets/home/desktop/image-header.jpg')",
         patternCircles: "url('/assets/home/desktop/pattern-circles.svg')",

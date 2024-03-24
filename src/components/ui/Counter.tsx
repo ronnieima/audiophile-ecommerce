@@ -1,14 +1,48 @@
 "use client";
-import { useState } from "react";
+import { updateCartItemQuantity } from "@/lib/actions";
+import { Dispatch, SetStateAction, useState } from "react";
 import { Button } from "./button";
 
-export default function Counter() {
-  const [count, setCount] = useState(1);
-  const handleDecrement = () => {
-    if (count !== 0) setCount((prevCount) => prevCount - 1);
+type Props = {
+  initialQuantity: number;
+  isInCart?: boolean;
+  cartItemId?: string;
+  onQuantityChange?: (newQuantity: number) => void;
+};
+
+export default function Counter({
+  initialQuantity,
+  isInCart = false,
+  cartItemId,
+  onQuantityChange,
+}: Props) {
+  const [quantity, setQuantity] = useState(initialQuantity);
+
+  const handleDecrement = async () => {
+    if (quantity !== 1) {
+      if (isInCart && cartItemId) {
+        setQuantity((prevQuantity) => prevQuantity - 1);
+        await updateCartItemQuantity(cartItemId, "decrement");
+      }
+      if (onQuantityChange)
+        setQuantity((prevQuantity) => {
+          const newQuantity = prevQuantity - 1;
+          onQuantityChange(newQuantity);
+          return newQuantity;
+        });
+    }
   };
-  const handleIncrement = () => {
-    setCount((prevCount) => prevCount + 1);
+  const handleIncrement = async () => {
+    if (isInCart && cartItemId) {
+      setQuantity((prevQuantity) => prevQuantity + 1);
+      await updateCartItemQuantity(cartItemId, "increment");
+    }
+    if (onQuantityChange)
+      setQuantity((prevQuantity) => {
+        const newQuantity = prevQuantity + 1;
+        onQuantityChange(newQuantity);
+        return newQuantity;
+      });
   };
 
   return (
@@ -17,7 +51,7 @@ export default function Counter() {
         -
       </Button>
       <h6 className="inline-flex h-full w-10 items-center justify-center bg-gray">
-        {count}
+        {quantity}
       </h6>
       <Button className="w-10 bg-gray text-black" onClick={handleIncrement}>
         +

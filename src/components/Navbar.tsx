@@ -1,14 +1,20 @@
-import { Menu, ShoppingCart } from "lucide-react";
-import React from "react";
+import Link from "next/link";
+import Cart from "./ui/Cart";
 import Logo from "./ui/Logo";
-import NavLinks from "./ui/NavLinks";
 import MaxWidthContainer from "./ui/MaxWidthContainer";
 import MobileMenu from "./ui/MobileMenu";
-import Cart from "./ui/Cart";
+import NavLinks from "./ui/NavLinks";
+import SignInButton from "./ui/SignInButton";
+import { getServerSession } from "next-auth";
+import { authOptions } from "@/app/api/auth/[...nextauth]/authOptions";
+import SignOutButton from "./ui/SignOutButton";
+import AccountMenu from "./ui/AccountMenu";
+import { Button } from "./ui/button";
 
-export default function Navbar() {
+export default async function Navbar() {
+  const session = await getServerSession(authOptions);
   return (
-    <nav className="relative z-[999] bg-black text-white" id="navbar">
+    <nav className="relative bg-black text-white" id="navbar">
       <MaxWidthContainer className="h-24 w-full flex-row justify-between">
         <MobileMenu className="sm:hidden" />
         <Logo className="sm:hidden lg:block" />
@@ -20,7 +26,21 @@ export default function Navbar() {
         </div>
 
         <NavLinks className="hidden lg:flex" />
-        <Cart />
+        <div className="space-x-8">
+          {session ? (
+            <>
+              <AccountMenu />
+            </>
+          ) : (
+            <>
+              <SignInButton />
+              <Button asChild>
+                <Link href={"/register"}>Register</Link>
+              </Button>
+            </>
+          )}
+          <Cart />
+        </div>
       </MaxWidthContainer>
     </nav>
   );

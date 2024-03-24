@@ -1,13 +1,18 @@
 import CallToAction from "@/components/Home/CallToAction";
 import Categories from "@/components/Home/Categories";
-import AddToCartButton from "@/components/ui/AddToCartButton";
-import Counter from "@/components/ui/Counter";
 import MaxWidthContainer from "@/components/ui/MaxWidthContainer";
 import { Button } from "@/components/ui/button";
-import { getProduct } from "@/lib/actions";
+import {
+  getIncludedItems,
+  getProductById,
+  getProductBySlug,
+} from "@/lib/actions";
 import { cn } from "@/lib/utils";
 import Link from "next/link";
 import { notFound } from "next/navigation";
+import AddToCart from "./_components/AddToCart";
+import { getServerSession } from "next-auth";
+import { authOptions } from "@/app/api/auth/[...nextauth]/authOptions";
 
 type ProductPageProps = {
   params: { productName: string };
@@ -16,15 +21,21 @@ type ProductPageProps = {
 export default async function ProductPage({
   params: { productName },
 }: ProductPageProps) {
-  const product = await getProduct(productName);
+  const session = await getServerSession(authOptions);
+  const product = await getProductBySlug(productName);
   if (!product) return notFound();
+  const includedItems = await getIncludedItems(product.id);
 
   return (
     <main className="flex flex-col items-stretch justify-center gap-32 ">
-      <section className=" ">
+      <section>
         <MaxWidthContainer className="justify-between gap-8 sm:flex-row lg:gap-16">
-          <div>
-            <Link href={`/${product.category}`}>Go Back</Link>
+          <div className="">
+            <Button asChild variant={"link"}>
+              <Link href={`/${product.category}`} className=" py-8 ">
+                Go Back
+              </Link>
+            </Button>
             <picture>
               <source
                 media="(min-width:1024px)"
@@ -45,10 +56,7 @@ export default async function ProductPage({
             <h2 className="max-w-xs">{product.name}</h2>
             <p className="max-w-sm">{product.description}</p>
             <h3>$ {product.price}</h3>
-            <div className="flex gap-4">
-              <Counter />
-              <AddToCartButton />
-            </div>
+            <AddToCart productId={product.id} session={session!} />
           </div>
         </MaxWidthContainer>
       </section>
@@ -62,10 +70,10 @@ export default async function ProductPage({
         <section className="flex w-full flex-col gap-8 self-start sm:flex-row  sm:text-left lg:flex-col">
           <h4 className="uppercase sm:w-1/2">In The Box</h4>
           <ul className="flex flex-col gap-2">
-            {product.includes.map((item) => (
-              <li key={item.item} className="flex items-center gap-4">
+            {includedItems.map((item) => (
+              <li key={item.id} className="flex items-center gap-4">
                 <h6 className="lowercase text-primary">{item.quantity}x</h6>
-                <p>{item.item}</p>
+                <p>{item.name}</p>
               </li>
             ))}
           </ul>
@@ -127,50 +135,57 @@ export default async function ProductPage({
       <section className="space-y-8">
         <h5 className="text-center uppercase">You May Also Like</h5>
         <MaxWidthContainer className="flex flex-col gap-8 sm:flex-row lg:gap-8">
-          {product.others.map((suggestion) => (
-            <div
-              key={suggestion.name}
-              className={cn(
-                "flex w-full  flex-col items-center justify-center gap-8 text-center",
-                " lg:justify-center lg:gap-4   ",
-              )}
-            >
-              <picture>
-                <source
-                  media="(min-width:1024px)"
-                  srcSet={suggestion.image.desktop.slice(1)}
-                />
-                <source
-                  media="(min-width:640px)"
-                  srcSet={suggestion.image.tablet.slice(1)}
-                />
-                <img
-                  src={suggestion.image.mobile.slice(1)}
-                  alt={suggestion.name}
-                  className="sm:w-full "
-                />
-              </picture>
-              <div
-                className={cn(
-                  "flex max-w-xs flex-col items-center justify-center gap-8",
-                  "sm:max-w-lg",
-                  "lg:w-1/2  lg:text-center",
-                )}
-              >
-                {product.new && (
-                  <span className="text-overline text-primary">
-                    New product
-                  </span>
-                )}
-                <h5>{suggestion.name}</h5>
-                <Button asChild>
-                  <Link href={`${suggestion.slug}`} className="uppercase">
-                    See product
-                  </Link>
-                </Button>
-              </div>
-            </div>
-          ))}
+          {product.others?.map(async (suggestedProductId) => {
+            const suggestedProduct = await getProductById(suggestedProductId);
+            if (suggestedProduct)
+              return (
+                <div
+                  key={suggestedProduct.name}
+                  className={cn(
+                    "flex w-full  flex-col items-center justify-center gap-8 text-center",
+                    " lg:justify-center lg:gap-4   ",
+                  )}
+                >
+                  <picture>
+                    <source
+                      media="(min-width:1024px)"
+                      srcSet={suggestedProduct.image.desktop.slice(1)}
+                    />
+                    <source
+                      media="(min-width:640px)"
+                      srcSet={suggestedProduct.image.tablet.slice(1)}
+                    />
+                    <img
+                      src={suggestedProduct.image.mobile.slice(1)}
+                      alt={suggestedProduct.name}
+                      className="sm:w-full "
+                    />
+                  </picture>
+                  <div
+                    className={cn(
+                      "flex max-w-xs flex-col items-center justify-center gap-8",
+                      "sm:max-w-lg",
+                      "lg:w-1/2  lg:text-center",
+                    )}
+                  >
+                    {product.new && (
+                      <span className="text-overline text-primary">
+                        New product
+                      </span>
+                    )}
+                    <h5>{suggestedProduct.name}</h5>
+                    <Button asChild>
+                      <Link
+                        href={`${suggestedProduct.slug}`}
+                        className="uppercase"
+                      >
+                        See product
+                      </Link>
+                    </Button>
+                  </div>
+                </div>
+              );
+          })}
         </MaxWidthContainer>
       </section>
 

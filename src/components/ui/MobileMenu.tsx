@@ -28,7 +28,7 @@ export default function MobileMenu({ className }: MobileMenuProps) {
         })}
       >
         <div className="rounded-b-lg bg-white py-16 text-black">
-          <Categories />
+          <Categories setShowModal={setShowModal} />
         </div>
       </div>
       {showModal &&
