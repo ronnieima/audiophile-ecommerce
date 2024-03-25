@@ -18,6 +18,7 @@ export default function CartItem({ product, cartItem }: Props) {
           <Image
             fill
             className="absolute  h-full w-full"
+            sizes="10vw"
             src={product.image.mobile.slice(1)}
             alt={product.name}
           />

@@ -85,7 +85,9 @@ export default async function Cart() {
             </div>
             <DialogClose asChild>
               <Button className="w-full uppercase" asChild>
-                <Link href={"/checkout"}>Checkout</Link>
+                <Link prefetch={false} href={"/checkout"}>
+                  Checkout
+                </Link>
               </Button>
             </DialogClose>
           </>

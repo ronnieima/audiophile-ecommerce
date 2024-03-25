@@ -12,7 +12,7 @@ import React from "react";
 import { Control, FieldValues } from "react-hook-form";
 
 export type FormInputProps = {
-  control: Control<FieldValues, any>;
+  control?: Control<FieldValues, any>;
   label: string;
   value: string;
   inputType: React.HTMLInputTypeAttribute | undefined;

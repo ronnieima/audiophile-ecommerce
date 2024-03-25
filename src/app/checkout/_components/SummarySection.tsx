@@ -108,23 +108,23 @@ export default function SummarySection({ userId, cart, price }: Props) {
                   <div className="flex w-full items-center">
                     <div className="relative aspect-square h-16">
                       <Image
-                        src={cart[0].product!.image.mobile!.slice(1)}
+                        src={cart[0]?.product!.image.mobile!.slice(1)}
                         fill
-                        alt={cart[0].product!.name}
+                        alt={cart[0]?.product!.name}
                         className="absolute"
                       />
                     </div>
                     <div className="w-full">
                       <div className="flex items-center justify-between">
                         <h6>
-                          {cart[0].product?.name
+                          {cart[0]?.product?.name
                             .split(" ")
                             .slice(0, -1)
                             .join(" ")}
                         </h6>
-                        <p>x{cart[0].quantity}</p>
+                        <p>x{cart[0]?.quantity}</p>
                       </div>
-                      <p>$ {cart[0].product?.price}</p>
+                      <p>$ {cart[0]?.product?.price}</p>
                     </div>
                   </div>
                 </div>
