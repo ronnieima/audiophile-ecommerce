@@ -8,12 +8,11 @@ import {
 } from "@/components/ui/dialog";
 import MaxWidthContainer from "@/components/ui/MaxWidthContainer";
 import { Separator } from "@/components/ui/separator";
-import Image from "next/image";
-import { Cart } from "./CheckoutForm";
-import { useRouter } from "next/navigation";
 import { deleteAllCartItems } from "@/lib/actions";
-import { useEffect } from "react";
+import Image from "next/image";
+import { useRouter } from "next/navigation";
 import { useFormContext } from "react-hook-form";
+import { Cart } from "./CheckoutForm";
 
 const SHIPPING_FEE = 50;
 const INCLUDED_VAT = 1079;
@@ -21,6 +20,9 @@ type Props = { userId: string; cart: Cart; price: number };
 
 export default function SummarySection({ userId, cart, price }: Props) {
   const router = useRouter();
+  const {
+    formState: { isValid },
+  } = useFormContext();
 
   return (
     <section className="w-full rounded-lg bg-white px-2  lg:w-1/2">
@@ -76,7 +78,11 @@ export default function SummarySection({ userId, cart, price }: Props) {
 
         <Dialog>
           <DialogTrigger asChild>
-            <Button className="w-full uppercase " type="submit">
+            <Button
+              type="submit"
+              disabled={!isValid}
+              className="w-full uppercase "
+            >
               Continue & Pay
             </Button>
           </DialogTrigger>

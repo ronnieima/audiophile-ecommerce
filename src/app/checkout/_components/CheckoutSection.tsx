@@ -60,7 +60,7 @@ export default function CheckoutSection() {
                     <FormControl>
                       <RadioGroup
                         onValueChange={field.onChange}
-                        defaultValue={"eMoney"}
+                        defaultValue={"cashOnDelivery"}
                         className="sm:w-1/2"
                       >
                         <FormItem className="flex h-12 items-center gap-2 space-y-0 rounded-lg border-2 border-gray px-4 [&:has([data-state=checked])]:border-primary">

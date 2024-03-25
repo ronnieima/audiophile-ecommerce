@@ -37,7 +37,6 @@ export default function FormInput({
           <FormLabel className="flex items-center justify-between">
             <>
               <p className="font-semibold">{label}</p>
-              <FormMessage />
             </>
           </FormLabel>
           <FormControl>
@@ -48,6 +47,7 @@ export default function FormInput({
               {...field}
             />
           </FormControl>
+          <FormMessage />
         </FormItem>
       )}
     />
