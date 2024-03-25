@@ -240,7 +240,7 @@ Designing effective database schemas for managing shopping carts involves carefu
 [issues-shield]: https://img.shields.io/github/issues/ronnieima/audiophile-ecommerce.svg?style=for-the-badge
 [issues-url]: https://github.com/ronnieima/audiophile-ecommerce/issues
 [license-shield]: https://img.shields.io/github/license/ronnieima/audiophile-ecommerce.svg?style=for-the-badge
-[license-url]: https://github.com/ronnieima/audiophile-ecommerce/blob/master/LICENSE.txt
+[license-url]: https://github.com/ronnieima/audiophile-ecommerce/blob/master/LICENSE
 [linkedin-shield]: https://img.shields.io/badge/-LinkedIn-black.svg?style=for-the-badge&logo=linkedin&colorB=555
 [linkedin-url]: https://linkedin.com/in/ronnie-kaito-imagawa
 [product-screenshot]: /public/assets/github/audiophile-preview.png
