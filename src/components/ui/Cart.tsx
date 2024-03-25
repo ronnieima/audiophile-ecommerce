@@ -59,6 +59,7 @@ export default async function Cart() {
   return (
     <Dialog>
       <DialogTrigger className="relative">
+        <span className="sr-only">Cart</span>
         <CartIcon cartSize={cartSize} />
       </DialogTrigger>
       <DialogContent className="overflow-auto">

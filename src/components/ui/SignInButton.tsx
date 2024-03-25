@@ -9,11 +9,14 @@ type Props = {
 export default function SignInButton({ className }: Props) {
   return (
     <Button
-      className={cn(className)}
+      className={cn("group relative", className)}
       variant={"ghost"}
       onClick={() => signIn()}
     >
       Sign in
+      <span className="absolute top-8 text-xs text-green-300 group-hover:hidden">
+        *Demo account available*
+      </span>
     </Button>
   );
 }

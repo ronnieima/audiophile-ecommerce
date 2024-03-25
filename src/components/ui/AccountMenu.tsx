@@ -15,6 +15,7 @@ export default function AccountMenu() {
   return (
     <DropdownMenu>
       <DropdownMenuTrigger>
+        <span className="sr-only">User menu</span>
         <User />
       </DropdownMenuTrigger>
       <DropdownMenuContent>
