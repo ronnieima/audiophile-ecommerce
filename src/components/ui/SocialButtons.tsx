@@ -2,10 +2,13 @@ import Link from "next/link";
 import React from "react";
 import { FacebookIcon, InstagramIcon, TwitterIcon } from "./SocialIcons";
 import { SocialPlatforms, socialLinks } from "@/config/content";
+import { cn } from "@/lib/utils";
 
-export default function SocialButtons() {
+type Props = { className: string };
+
+export default function SocialButtons({ className }: Props) {
   return (
-    <ul className="flex items-center gap-4">
+    <ul className={cn("flex items-center gap-4", className)}>
       {socialLinks.map((social) => (
         <li key={social.href}>
           <Link href={social.href} target="_blank">
